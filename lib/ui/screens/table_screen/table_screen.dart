@@ -1,19 +1,38 @@
-
-
 import 'package:flutter/material.dart';
 
-class TableScreen extends StatelessWidget {
+class TableScreen extends StatefulWidget {
+  const TableScreen({super.key});
 
-  final List<Map<String, String>> mesas = [
+  @override
+  _TableScreenState createState() => _TableScreenState();
+}
+
+class _TableScreenState extends State<TableScreen> {
+  List<Map<String, String>> mesas = [
     {"nombre": "Mesa 1", "estado": "Disponible"},
     {"nombre": "Mesa 2", "estado": "Disponible"},
     {"nombre": "Mesa 3", "estado": "Disponible"},
-    {"nombre": "Mesa 4", "estado": "Ocupada"},
-    {"nombre": "Mesa 5", "estado": "Orden"},
+    {"nombre": "Mesa 4", "estado": "Disponible"},
+    {"nombre": "Mesa 5", "estado": "Disponible"},
     {"nombre": "Mesa 6", "estado": "Disponible"},
-    {"nombre": "Mesa 7", "estado": "Orden"},
-    {"nombre": "Mesa 8", "estado": "Ocupada"},
+    {"nombre": "Mesa 7", "estado": "Disponible"},
+    {"nombre": "Mesa 8", "estado": "Disponible"},
+    {"nombre": "Mesa 9", "estado": "Disponible"},
+    {"nombre": "Mesa 10", "estado": "Disponible"},
+    {"nombre": "Mesa 11", "estado": "Disponible"},
+    {"nombre": "Mesa 12", "estado": "Disponible"},
   ];
+
+  final List<String> estados = ['Disponible', 'Orden', 'Ocupada'];
+
+  void cambiarEstado(int index) {
+    final estadoActual = mesas[index]['estado']!;
+    final siguienteEstadoIndex =
+        (estados.indexOf(estadoActual) + 1) % estados.length;
+    setState(() {
+      mesas[index]['estado'] = estados[siguienteEstadoIndex];
+    });
+  }
 
   Color getColor(String estado) {
     switch (estado) {
@@ -47,15 +66,29 @@ class TableScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
-                Text('DESCRIPCIÓN GENERAL', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('DESCRIPCIÓN GENERAL',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),
                 Wrap(
                   spacing: 8,
                   children: [
-                    _buildSummaryBox('25', 'Total Mesas', Color(0xFF878282)),
-                    _buildSummaryBox('19', 'Disponibles', Color(0XFF06D6A0)),
-                    _buildSummaryBox('2', 'Ocupada', Color(0XFFEF476F)),
-                    _buildSummaryBox('4', 'Orden', Color(0XFFFFD166)),
+                    _buildSummaryBox(
+                        '${mesas.length}', 'Total Mesas', Color(0xFF878282)),
+                    _buildSummaryBox(
+                      '${mesas.where((m) => m["estado"] == "Disponible").length}',
+                      'Disponibles',
+                      Color(0XFF06D6A0),
+                    ),
+                    _buildSummaryBox(
+                      '${mesas.where((m) => m["estado"] == "Ocupada").length}',
+                      'Ocupada',
+                      Color(0XFFEF476F),
+                    ),
+                    _buildSummaryBox(
+                      '${mesas.where((m) => m["estado"] == "Orden").length}',
+                      'Orden',
+                      Color(0XFFFFD166),
+                    ),
                   ],
                 ),
               ],
@@ -83,12 +116,15 @@ class TableScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(mesa["nombre"]!, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      Text(mesa["nombre"]!,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
                       SizedBox(height: 4),
                       Text(estado, style: TextStyle(color: Colors.white)),
                       Spacer(),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () => cambiarEstado(index),
                         icon: Icon(getIcon(estado), size: 16),
                         label: Text("VER"),
                         style: ElevatedButton.styleFrom(
@@ -109,8 +145,10 @@ class TableScreen extends StatelessWidget {
         currentIndex: 0,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.table_bar), label: 'Mesas'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Ordenes'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Cuenta'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long), label: 'Ordenes'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle), label: 'Cuenta'),
         ],
       ),
     );
@@ -126,7 +164,8 @@ class TableScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(value,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Text(label, style: TextStyle(fontSize: 12)),
           SizedBox(height: 4),
           CircleAvatar(radius: 4, backgroundColor: color),
