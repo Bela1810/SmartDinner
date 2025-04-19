@@ -1,0 +1,2 @@
+C:/Users/kalic/Desktop/Areas_Universidad/9 Semestre/Desarrollo_De_Aplicaciones_Moviles/SmartDinner/android/app/.cxx/Debug/5z6j4730/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/kalic/Desktop/Areas_Universidad/9 Semestre/Desarrollo_De_Aplicaciones_Moviles/SmartDinner/android/app/.cxx/Debug/5z6j4730/armeabi-v7a/CMakeFiles/rebuild_cache.dir

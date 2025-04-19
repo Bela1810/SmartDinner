@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/data/services/authentication/auth_service.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/table_card.dart';
 import 'package:smartdinner/ui/widgets/table_description.dart';
-
 
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
@@ -25,21 +25,29 @@ class _TableScreenState extends State<TableScreen> {
   void changeStatus(int index) {
     final currentStatus = tables[index]['status']!;
     final nextIndex = (statuses.indexOf(currentStatus) + 1) % statuses.length;
+
     setState(() {
       tables[index]['status'] = statuses[nextIndex];
     });
   }
 
+  Future<void> handleAuth() async {
+    AuthService authService = AuthService();
+    await authService.signOut();
+  } //TODO: Organizar esto
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MESAS', 
-        style: TextStyle(
-          color: Color(0xFF073B4C),
-          fontWeight: FontWeight.bold
-        ),),
-        actions: [IconButton(icon: Icon(Icons.menu), onPressed: () {})],
+        title: const Text(
+          'MESAS',
+          style:
+              TextStyle(color: Color(0xFF073B4C), fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(icon: Icon(Icons.menu), onPressed: handleAuth)
+        ], //TODO: Aqui tambien
       ),
       body: Column(
         children: [
@@ -68,5 +76,3 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 }
-
-
