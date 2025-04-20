@@ -29,8 +29,8 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(isLogin ? 'Iniciar sesion' : 'Registrarse')),
-      backgroundColor: Color(0xFF073B4C),
+      appBar: AppBar(title: Text(isLogin ? 'Iniciar sesión' : 'Registrarse')),
+      backgroundColor: const Color(0xFF073B4C),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,9 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   borderSide: BorderSide(color: Colors.blue),
                 ),
               ),
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: const TextStyle(color: Colors.white),
             ),
             TextField(
               controller: passwordController,
@@ -64,27 +62,40 @@ class _AuthScreenState extends State<AuthScreen> {
                   borderSide: BorderSide(color: Colors.blue),
                 ),
               ),
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              style: const TextStyle(color: Colors.white),
               obscureText: true,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-                onPressed: handleAuth,
-                child: Text(isLogin ? 'Iniciar sesion' : 'Registrarse')),
+              onPressed: handleAuth,
+              child: Text(isLogin ? 'Iniciar sesión' : 'Registrarse'),
+            ),
             TextButton(
-                onPressed: () {
-                  setState(() {
-                    isLogin = !isLogin;
-                  });
-                },
-                child: Text(isLogin
-                    ? 'No tienes cuente? Registrate'
-                    : 'Ya tienes cuenta?'))
+              onPressed: () {
+                setState(() {
+                  isLogin = !isLogin;
+                });
+              },
+              child: Text(
+                isLogin
+                    ? '¿No tienes cuenta? Regístrate'
+                    : '¿Ya tienes cuenta?',
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/admin');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+              ),
+              child: const Text('Soy admin'),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
