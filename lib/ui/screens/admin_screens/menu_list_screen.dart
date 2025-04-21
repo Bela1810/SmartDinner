@@ -1,32 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/ui/screens/admin_screens/dish_list_screen.dart';
 
 class MenuListScreen extends StatelessWidget {
   const MenuListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Lista mock de menús
-    final List<String> menus = ['Menú Principal'];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mis Menús'),
       ),
-      body: ListView.builder(
-        itemCount: menus.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(menus[index]),
-            trailing: const Icon(Icons.arrow_forward),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _buildMenuItem(
+            context,
+            title: 'Menú principal',
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                '/dishes',
-                arguments: menus[index], // pasamos el nombre del menú
+                MaterialPageRoute(
+                  builder: (context) => const DishListScreen(),
+                ),
               );
             },
-          );
-        },
+          ),
+          const SizedBox(height: 10),
+          _buildMenuItem(context, title: 'Menú 2'),
+          const SizedBox(height: 10),
+          _buildMenuItem(context, title: 'Menú 3'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(BuildContext context, {required String title, VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: const TextStyle(fontSize: 16)),
+            const Icon(Icons.arrow_forward_ios, size: 16),
+          ],
+        ),
       ),
     );
   }

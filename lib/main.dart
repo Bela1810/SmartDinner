@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
 import 'package:smartdinner/ui/screens/admin_screens/admin_home.dart';
-import 'package:smartdinner/ui/screens/admin_screens/menu_list_screen.dart'; // Asegúrate de que el path sea correcto
+import 'package:smartdinner/ui/screens/admin_screens/menu_list_screen.dart'; 
+import 'package:smartdinner/ui/screens/admin_screens/dish_list_screen.dart';
 import 'firebase_options.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const AuthWrapper(),
       routes: {
-        '/admin': (context) => const AdminHome(), // Aquí añadimos la ruta
+        '/admin': (context) => const AdminHome(), 
+        '/menus': (context) => const MenuListScreen(),
+        '/dis': (context) => const DishListScreen(),
       },
     );
   }
