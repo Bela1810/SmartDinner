@@ -29,13 +29,19 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(isLogin ? 'Iniciar sesion' : 'Registrarse')),
+      // appBar: AppBar(title: Text(isLogin ? 'Iniciar sesion' : 'Registrarse')),
       backgroundColor: Color(0xFF073B4C),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              './assets/images/dark.png',
+            ),
+            Title(
+                color: Colors.black,
+                child: Text(isLogin ? 'Iniciar sesion' : 'Registrarse')),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
