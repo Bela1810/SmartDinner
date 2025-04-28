@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/model/menu_item.dart'; 
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -9,80 +10,19 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   String selectedCategory = 'Entradas';
-
   final List<String> categories = ['Entradas', 'Platos', 'Bebidas', 'Postres'];
-
-  final Map<String, List<Map<String, dynamic>>> menuItems = {
-    'Entradas': [
-      {
-        'nombre': 'Pan Tostado',
-        'precio': '10.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Papas Canadienses',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Tartas de Pollo',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      // Añadir nuevo ítem
-      {
-        'nombre': 'Tartas de Pollo - Nuevo',
-        'precio': '15.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Platos': [
-      {
-        'nombre': 'Pan Tostado',
-        'precio': '10.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Papas Canadienses',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Bebidas': [
-      {
-        'nombre': 'Pan Tostado',
-        'precio': '10.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Papas Canadienses',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Postres': [
-      {
-        'nombre': 'Pan Tostado',
-        'precio': '10.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Papas Canadienses',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',  // Todo esto son datos quemados
-      },
-    ],
-  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PEDIDO MESA 2',
-            style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF073B4C))),
+        title: const Text(
+          'PEDIDO MESA 2',
+          style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF073B4C)),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -90,7 +30,7 @@ class _MenuPageState extends State<MenuPage> {
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 19),
-            child: Icon(Icons.menu, color: Color(0xFF073B4C)),  //hay que configurar el menu de tres barras 
+            child: Icon(Icons.menu, color: Color(0xFF073B4C)), // Botón menú
           )
         ],
       ),
@@ -101,27 +41,28 @@ class _MenuPageState extends State<MenuPage> {
           children: [
             const SizedBox(height: 8),
             const Icon(Icons.restaurant_menu,
-                size: 60, color: Color(0xFF073B4C)),  //Aqui hay que poner el logo
+                size: 60, color: Color(0xFF073B4C)), // Aquí puedes poner el logo
             const SizedBox(height: 8),
-            const Text('MENÚ',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF073B4C),
-                )),
+            const Text(
+              'MENÚ',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF073B4C),
+              ),
+            ),
             const SizedBox(height: 25),
             Expanded(
               child: ListView(
                 children: categories.map((category) {
-                  final List<Map<String, dynamic>> items =
-                      menuItems[category] ?? [];
+                  // Obtener los elementos del menú según la categoría
+                  final List<MenuItem> items =
+                      MenuItem.menuItems[category] ?? [];
                   return ExpansionTile(
                     title: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Color(0xFFD9D9D9),
-                        border: Border.all(
-                            color: Color(0xFF878282), width: 1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -148,17 +89,17 @@ class _MenuPageState extends State<MenuPage> {
                               height: 70,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: NetworkImage(item['imagen']),
+                                  image: NetworkImage(item.imagen),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            title: Text(item['nombre'],
+                            title: Text(item.nombre,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16)),
-                            subtitle: Text(item['precio']),
+                            subtitle: Text(item.precio),
                             trailing: const Icon(Icons.add_circle_outline,
                                 color: Color(0xFF073B4C)),
                           ),
@@ -189,8 +130,8 @@ class _MenuPageState extends State<MenuPage> {
       ),
     );
   }
-
 }
+
 
 //Falta arreglar el tamaño de cada item que se vea mas grande juntos con la imagen  y falta separar mas cada categoria para que no se vea pegado
 
