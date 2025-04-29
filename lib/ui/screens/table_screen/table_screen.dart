@@ -40,7 +40,7 @@ class _TableScreenState extends State<TableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'MESAS',
           style:
               TextStyle(color: Color(0xFF073B4C), fontWeight: FontWeight.bold),
@@ -54,9 +54,9 @@ class _TableScreenState extends State<TableScreen> {
           TableDescription(tables: tables),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               itemCount: tables.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 childAspectRatio: 1.2,
@@ -72,7 +72,7 @@ class _TableScreenState extends State<TableScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: const TableBottomNavBar(),
+      bottomNavigationBar: TableBottomNavBar(),
     );
   }
 }

@@ -55,7 +55,6 @@ class _MenuPageState extends State<MenuPage> {
             Expanded(
               child: ListView(
                 children: categories.map((category) {
-                  // Obtener los elementos del menú según la categoría
                   final List<MenuItem> items =
                       MenuItem.menuItems[category] ?? [];
                   return ExpansionTile(
