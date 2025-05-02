@@ -1,57 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
+import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
+import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
+import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
+import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
+import 'package:smartdinner/ui/screens/user_account_screen/user_account.dart';
 
-Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
-  // await FirebaseAppCheck.instance.activate(
-  //   androidProvider: AndroidProvider.playIntegrity,
-  // );
-
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: const AuthScreen(),
+      home: AddDishScreen(),
     );
   }
 }
 
-// class AuthWrapper extends StatelessWidget {
-//   const AuthWrapper({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<User?>(
-//       stream: FirebaseAuth.instance.authStateChanges(),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         }
-
-//         if (snapshot.hasData) {
-//           return const TableScreen();
-//         } else {
-//           return const AuthScreen();
-//         }
-//       },
-//     );
-//   }
-// }
