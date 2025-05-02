@@ -43,7 +43,7 @@ class TableCard extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 21,
             ),
             textAlign: TextAlign.center,
           ),
@@ -53,7 +53,7 @@ class TableCard extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 14),
+              fontSize: 15),
             textAlign: TextAlign.center,
           ),
           const Spacer(),

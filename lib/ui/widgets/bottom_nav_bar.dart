@@ -1,17 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/ui/screens/order_tables_screen/order_tables_screen.dart';
+import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
+import 'package:smartdinner/ui/screens/user_account_screen/user_account.dart';
 
 class TableBottomNavBar extends StatelessWidget {
-  const TableBottomNavBar({super.key});
+  final int currentIndex;
+
+  const TableBottomNavBar({super.key, required this.currentIndex});
+
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == currentIndex) return;
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => TableScreen()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => OrderTablesScreen()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => UserAccountScreen()),
+        );
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: const Color(0xFF073B4C),
-      currentIndex: 0,
+      currentIndex: currentIndex,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
-      selectedLabelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      selectedLabelStyle: const TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold),
+      unselectedLabelStyle: const TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold),
+      onTap: (index) => _onItemTapped(context, index),
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.table_bar, size: 27),
@@ -29,4 +62,5 @@ class TableBottomNavBar extends StatelessWidget {
     );
   }
 }
+
 

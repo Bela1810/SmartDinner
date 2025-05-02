@@ -1,128 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/menu_item.dart'; 
+import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
+import 'package:smartdinner/ui/widgets/button_order.dart';
+import 'package:smartdinner/ui/widgets/category_list.dart';
+import 'package:smartdinner/ui/widgets/circular_image.dart';
+import 'package:smartdinner/ui/widgets/menu_title.dart';
 
-class MenuPage extends StatefulWidget {
-  const MenuPage({super.key});
+class MenuScreen extends StatefulWidget {
+  final TableModel table;
+
+  const MenuScreen({super.key, required this.table});
 
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<MenuScreen> createState() => _MenuScreenState();
 }
 
-class _MenuPageState extends State<MenuPage> {
-  String selectedCategory = 'Entradas';
+class _MenuScreenState extends State<MenuScreen> {
   final List<String> categories = ['Entradas', 'Platos', 'Bebidas', 'Postres'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'PEDIDO MESA 2',
-          style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF073B4C)),
+        title: Text(
+          'ORDEN ${widget.table.name.toUpperCase()}',
+          style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF073B4C),
+          ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: const BackButton(color: Color(0xFF073B4C)),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 19),
-            child: Icon(Icons.menu, color: Color(0xFF073B4C)), // Botón menú
+            child: Icon(Icons.menu, color: Color(0xFF073B4C)),
           )
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 23),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 8),
-            const Icon(Icons.restaurant_menu,
-                size: 60, color: Color(0xFF073B4C)), // Aquí puedes poner el logo
-            const SizedBox(height: 8),
-            const Text(
-              'MENÚ',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF073B4C),
-              ),
-            ),
-            const SizedBox(height: 25),
             Expanded(
               child: ListView(
-                children: categories.map((category) {
-                  final List<MenuItem> items =
-                      MenuItem.menuItems[category] ?? [];
-                  return ExpansionTile(
-                    title: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        category.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF073B4C),
-                        ),
-                      ),
-                    ),
-                    children: items.map((item) {
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: const BorderSide(
-                                color: Color(0xFF073B4C), width: 2),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(item.imagen),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            title: Text(item.nombre,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16)),
-                            subtitle: Text(item.precio),
-                            trailing: const Icon(Icons.add_circle_outline,
-                                color: Color(0xFF073B4C)),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }).toList(),
+                padding: const EdgeInsets.only(bottom: 20),
+                children: [
+                  SizedBox(height: 20),
+                  CircularImageWidget(imagePath: './assets/images/white.png'),
+                  MenuTitleWidget(),
+                  SizedBox(height: 25),
+                  CategoryListWidget(categories: categories),
+                ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF073B4C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+            ViewOrderButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OrderScreen(),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: const Text('VER PEDIDO'),
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -130,6 +73,10 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 }
+
+
+
+
 
 
 //Falta arreglar el tamaño de cada item que se vea mas grande juntos con la imagen  y falta separar mas cada categoria para que no se vea pegado

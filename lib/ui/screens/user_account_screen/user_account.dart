@@ -11,9 +11,9 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   // Datos quemados del usuario
   final User _user = User(
     username: 'usuario123',
-    previousPassword: '', // Inicialmente vacío
-    newPassword: '',     // Inicialmente vacío
-    profileImage: 'https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png', // Reemplaza con una URL o path local
+    previousPassword: '', 
+    newPassword: '',     
+    profileImage: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D', // Reemplaza con una URL o path local
   );
 
   final _usernameController = TextEditingController();
@@ -143,7 +143,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const TableBottomNavBar(),
+      bottomNavigationBar: const TableBottomNavBar(currentIndex: 2),
     );
   }
 }

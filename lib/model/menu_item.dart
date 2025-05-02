@@ -10,7 +10,6 @@ class MenuItem {
     required this.imagen,
   });
 
-  // Método para crear una instancia de MenuItem desde un Map
   factory MenuItem.fromMap(Map<String, dynamic> map) {
     return MenuItem(
       nombre: map['nombre'],
@@ -19,7 +18,6 @@ class MenuItem {
     );
   }
 
-  // Método para convertir MenuItem a un Map
   Map<String, dynamic> toMap() {
     return {
       'nombre': nombre,
@@ -28,39 +26,55 @@ class MenuItem {
     };
   }
 
-  // Lista de elementos de menú "quemada" (en el modelo)
-  static final Map<String, List<MenuItem>> menuItems = {
+
+  static final Map<String, List<MenuItem>> menuItems = {  //Lista Quemada
     'Entradas': [
       MenuItem(
-        nombre: 'Pan Tostado',
+        nombre: 'Empanadas',
         precio: '10.000 COP',
-        imagen: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
+        imagen: 'https://www.themealdb.com/images/media/meals/45xxr21593348847.jpg',
       ),
       MenuItem(
-        nombre: 'Papas Canadienses',
+        nombre: 'Tacos',
         precio: '12.000 COP',
-        imagen: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
+        imagen: 'https://www.themealdb.com/images/media/meals/uvuyxu1503067369.jpg',
       ),
     ],
     'Platos': [
       MenuItem(
-        nombre: 'Pan Tostado',
-        precio: '10.000 COP',
-        imagen: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
+        nombre: 'Pollo a la Salsa',
+        precio: '25.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/tytyxu1515363282.jpg',
       ),
+      MenuItem(
+        nombre: 'Sopa de Tomate',
+        precio: '20.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/stpuws1511191310.jpg',
+      ),
+      MenuItem(
+        nombre: 'Hamburguesas Tocineta',
+        precio: '40.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg',
+      ),
+
     ],
     'Bebidas': [
       MenuItem(
-        nombre: 'Cerveza',
-        precio: '5.000 COP',
-        imagen: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
+        nombre: 'Malteada de Cereza',
+        precio: '15.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/uuxwvq1483907861.jpg',
       ),
     ],
     'Postres': [
       MenuItem(
-        nombre: 'Tarta de Limón',
-        precio: '8.000 COP',
-        imagen: 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
+        nombre: 'Torta de Nueces',
+        precio: '30.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/wxyvqq1511723401.jpg',
+      ),
+      MenuItem(
+        nombre: 'Galletas Horneadas',
+        precio: '9.000 COP',
+        imagen: 'https://www.themealdb.com/images/media/meals/qe8pf51576795532.jpg',
       ),
     ],
   };
