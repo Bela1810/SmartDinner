@@ -1,82 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/model/order_item.dart';
+import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/ui/widgets/order_card.dart';
+import 'package:smartdinner/ui/widgets/order_total_price.dart';
+import 'package:smartdinner/ui/widgets/order_action_buttons.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+  final TableModel table;
+  final VoidCallback updateTableStatus;
+
+  const OrderScreen({
+    super.key,
+    required this.table,
+    required this.updateTableStatus,
+  });
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  List<OrderItem> items = [
-    OrderItem(
-      nombre: "Pan Tostado",
-      precioUnitario: 10000,
-      cantidad: 2,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Papas Canadienses",
-      precioUnitario: 12000,
-      cantidad: 5,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Tartas de Pollo",
-      precioUnitario: 12000,
-      cantidad: 5,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Pan Carne",
-      precioUnitario: 11000,
-      cantidad: 2,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Pan Carne",
-      precioUnitario: 11000,
-      cantidad: 2,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Pan Carne",
-      precioUnitario: 11000,
-      cantidad: 2,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-    OrderItem(
-      nombre: "Pan Carne",
-      precioUnitario: 11000,
-      cantidad: 2,
-      imagen: "https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg",
-    ),
-  ];
+  List<OrderItem> items = OrderItem.getItems();
 
-  int calcularTotal() {
+  int calculateTotalPrice() {
     int total = 0;
     for (var item in items) {
-      total += item.precioUnitario * item.cantidad;
+      int unitPrice = item.unitPrice;
+      int quantity = item.quantity;
+      total += unitPrice * quantity;
     }
     return total;
   }
 
-  void aumentarCantidad(int index) {
+  void increaseQuantity(int index) {
     setState(() {
-      items[index].cantidad++;
+      items[index].quantity++;
     });
   }
 
-  void disminuirCantidad(int index) {
+  void decreaseQuantity(int index) {
     setState(() {
-      if (items[index].cantidad > 1) {
-        items[index].cantidad--;
+      if (items[index].quantity > 1) {
+        items[index].quantity--;
       }
     });
   }
 
-  void eliminarItem(int index) {
+  void deleteItem(int index) {
     setState(() {
       items.removeAt(index);
     });
@@ -90,10 +60,10 @@ class _OrderScreenState extends State<OrderScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const BackButton(color: Color(0xFF073B4C)),
-        title: const Text(
-          'PEDIDO MESA 2',
-          style: TextStyle(
-            fontSize: 22,
+        title: Text(
+          'ORDEN ${widget.table.name.toUpperCase()}',
+          style: const TextStyle(
+            fontSize: 25,
             fontWeight: FontWeight.bold,
             color: Color(0xFF073B4C),
           ),
@@ -103,13 +73,13 @@ class _OrderScreenState extends State<OrderScreen> {
       body: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 25),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'PEDIDO',
+                'PEDIDO SELECCIONADO',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF073B4C),
                 ),
@@ -122,165 +92,88 @@ class _OrderScreenState extends State<OrderScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: items.length,
               itemBuilder: (context, index) {
-                final item = items[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xFF073B4C), width: 2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          item.imagen,
-                          width: 70,
-                          height: 70,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.nombre,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF073B4C),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              '${item.precioUnitario} COP',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF073B4C),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Cantidad:',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const SizedBox(width: 5),
-                                IconButton(
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  onPressed: () => disminuirCantidad(index),
-                                  color: Color(0xFF073B4C),
-                                ),
-                                Text(
-                                  '${item.cantidad}',
-                                  style: const TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add_circle_outline),
-                                  onPressed: () => aumentarCantidad(index),
-                                  color: Color(0xFF073B4C),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete_outline, color: Colors.red),
-                        onPressed: () => eliminarItem(index),
-                      ),
-                    ],
-                  ),
+                return OrderItemCard(
+                  item: items[index],
+                  onIncrease: () => increaseQuantity(index),
+                  onDecrease: () => decreaseQuantity(index),
+                  onDelete: () => deleteItem(index),
                 );
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF073B4C),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'PRECIO: ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+          OrderTotalPrice(totalPrice: calculateTotalPrice()),
+          OrderActionButtons(
+            onSendOrder: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Confirmar Pedido'),
+                  content: const Text('¿Confirmas el envío del pedido a preparación?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancelar'),
                     ),
-                  ),
-                  Text(
-                    '${calcularTotal()} COP',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.table.status = 'Ordenada';
+                        });
+
+                        widget.updateTableStatus();
+
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Aceptar'),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Acción de enviar pedido
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF118AB2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                    ),
-                    child: const Text(
-                      'ENVIAR PEDIDO',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Acción de pagar
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF06D6A0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+              );
+            },
+            onPay: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Confirmar Pago'),
+                  content: const Text('¿Deseas marcar esta mesa como ocupada?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancelar'),
                     ),
-                    child: const Text(
-                      'PAGAR',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.table.status = 'Disponible';
+                        });
+
+                        widget.updateTableStatus();
+
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Aceptar'),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
     );
   }
 }
+
+//TO DO : Refactorizar este codigo y ver la forma de que se actualiza la pantalla principal sin necesidad de refrescar la pagina
+//TO DO : Arreglar card de esta vista
+
+
+
+
 
 
 

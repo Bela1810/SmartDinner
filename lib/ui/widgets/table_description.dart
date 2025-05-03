@@ -12,7 +12,7 @@ class TableDescription extends StatelessWidget {
     int total = tables.length;
     int available = tables.where((t) => t.status == "Disponible").length;
     int occupied = tables.where((t) => t.status == "Ocupada").length;
-    int orders = tables.where((t) => t.status == "Pedido").length;
+    int orders = tables.where((t) => t.status == "Ordenada").length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

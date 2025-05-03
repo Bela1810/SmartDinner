@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/model/table_model.dart';
 import 'package:smartdinner/ui/screens/order_tables_screen/order_tables_screen.dart';
 import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
 import 'package:smartdinner/ui/screens/user_account_screen/user_account.dart';
 
 class TableBottomNavBar extends StatelessWidget {
   final int currentIndex;
+  final List<TableModel> tables;  
 
-  const TableBottomNavBar({super.key, required this.currentIndex});
+  const TableBottomNavBar({super.key, required this.currentIndex, required this.tables});
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == currentIndex) return;
@@ -21,7 +23,7 @@ class TableBottomNavBar extends StatelessWidget {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => OrderTablesScreen()),
+          MaterialPageRoute(builder: (_) => OrderTablesScreen(tables: tables)), 
         );
         break;
       case 2:
@@ -52,7 +54,7 @@ class TableBottomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.receipt_long, size: 27),
-          label: 'Pedidos',
+          label: 'Ordenes',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle, size: 27),
@@ -62,5 +64,6 @@ class TableBottomNavBar extends StatelessWidget {
     );
   }
 }
+
 
 

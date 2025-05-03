@@ -143,7 +143,9 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const TableBottomNavBar(currentIndex: 2),
+      bottomNavigationBar: const TableBottomNavBar(currentIndex: 2, tables: [],),
     );
   }
 }
+
+//TO DO : separar widgets y refactorizar este codigo

@@ -62,7 +62,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const OrderScreen(),
+                    builder: (context) => OrderScreen(table: widget.table, updateTableStatus: () {  },),
                   ),
                 );
               },
@@ -79,6 +79,6 @@ class _MenuScreenState extends State<MenuScreen> {
 
 
 
-//Falta arreglar el tamaño de cada item que se vea mas grande juntos con la imagen  y falta separar mas cada categoria para que no se vea pegado
+
 
 

@@ -18,7 +18,7 @@ class TableCard extends StatelessWidget {
         return const Color(0XFF06D6A0);
       case 'Ocupada':
         return const Color(0XFFEF476F);
-      case 'Pedido':
+      case 'Ordenada':
         return const Color(0XFFFFD166);
       default:
         return const Color(0xFF878282);

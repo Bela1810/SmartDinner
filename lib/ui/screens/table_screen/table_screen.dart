@@ -81,7 +81,7 @@ class _TableScreenState extends State<TableScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: TableBottomNavBar(currentIndex: 0),
+      bottomNavigationBar: TableBottomNavBar(currentIndex: 0, tables: tableList),
     );
   }
 }
