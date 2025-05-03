@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
+import 'package:smartdinner/ui/screens/admin_screens/admin_home_screen/admin_home_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
 import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: TableScreen(),
+
     );
   }
 }

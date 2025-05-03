@@ -4,62 +4,89 @@ class AddDishScreen extends StatefulWidget {
   const AddDishScreen({super.key});
 
   @override
-  State<AddDishScreen> createState() => _AddDishScreenState();
+  _AddDishScreenState createState() => _AddDishScreenState();
 }
 
 class _AddDishScreenState extends State<AddDishScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _precioController = TextEditingController();
-  final TextEditingController _imagenController = TextEditingController();
-
-  void _guardarPlato() {
-    if (_formKey.currentState!.validate()) {
-      final nuevoPlato = {
-        'nombre': _nombreController.text,
-        'precio': _precioController.text,
-        'imagen': _imagenController.text,
-      };
-
-      // Volver a la pantalla anterior enviando el nuevo plato
-      Navigator.pop(context, nuevoPlato);
-    }
-  }
+  String? _nombre;
+  String? _precio;
+  String? _categoria;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agregar nuevo plato'),
+        title: const Text('AGREGAR PLATO'),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
+              GestureDetector(
+                onTap: () {
+                  // Aquí se abriría el selector de imagen
+                },
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  color: Colors.grey[300],
+                  child: const Icon(
+                    Icons.add_a_photo,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
-                controller: _nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre del plato'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Escribe un nombre' : null,
+                decoration: const InputDecoration(labelText: 'Nombre'),
+                onSaved: (value) => _nombre = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un nombre';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
-                controller: _precioController,
                 decoration: const InputDecoration(labelText: 'Precio'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Escribe un precio' : null,
+                onSaved: (value) => _precio = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un precio';
+                  }
+                  return null;
+                },
               ),
-              TextFormField(
-                controller: _imagenController,
-                decoration: const InputDecoration(labelText: 'URL de la imagen'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Pon una URL' : null,
+              DropdownButtonFormField<String>(
+                value: _categoria,
+                decoration: const InputDecoration(labelText: 'Categoría'),
+                items: const [
+                  DropdownMenuItem(value: 'Entrada', child: Text('Entrada')),
+                  DropdownMenuItem(value: 'Plato', child: Text('Plato')),
+                  DropdownMenuItem(value: 'Bebida', child: Text('Bebida')),
+                  DropdownMenuItem(value: 'Postre', child: Text('Postre')),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _categoria = value;
+                  });
+                },
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _guardarPlato,
-                child: const Text('Guardar plato'),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    // Guardar el plato en el menú
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('AGREGAR NUEVO PLATO'),
               ),
             ],
           ),
