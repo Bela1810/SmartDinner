@@ -3,6 +3,8 @@ import 'package:smartdinner/model/user_model.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart'; 
 
 class UserAccountScreen extends StatefulWidget {
+  const UserAccountScreen({super.key});
+
   @override
   _UserAccountScreenState createState() => _UserAccountScreenState();
 }

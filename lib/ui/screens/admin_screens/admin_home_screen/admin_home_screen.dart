@@ -1,130 +1,188 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/model/menu_item.dart';
 import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
+import 'package:smartdinner/ui/widgets/circular_image.dart';
+import 'package:smartdinner/ui/widgets/menu_title.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
 
-  final Map<String, List<Map<String, dynamic>>> menuItems = const {
-    'Entradas': [
-      {
-        'nombre': 'Pan Tostado',
-        'precio': '10.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-      {
-        'nombre': 'Papas Canadienses',
-        'precio': '12.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Platos': [
-      {
-        'nombre': 'Lomo a lo Pobre',
-        'precio': '22.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Bebidas': [
-      {
-        'nombre': 'Limonada Natural',
-        'precio': '5.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-    'Postres': [
-      {
-        'nombre': 'Flan de Vainilla',
-        'precio': '7.000 COP',
-        'imagen': 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium',
-      },
-    ],
-  };
+  @override
+  State<AdminHome> createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+  late Map<String, List<MenuItem>> _menuItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _resetMenu();
+  }
+
+  void _deleteDish(String category, int index) {
+    setState(() {
+      _menuItems[category]!.removeAt(index);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Plato eliminado')),
+    );
+  }
+
+  void _resetMenu() {
+    setState(() {
+      _menuItems = Map.fromEntries(
+        MenuItem.menuItems.entries.map(
+          (e) => MapEntry(e.key, List<MenuItem>.from(e.value)),
+        ),
+      );
+    });
+  }
+
+  void _agregarPlato(Map<String, dynamic> nuevoPlato) {
+    setState(() {
+      final categoria = nuevoPlato['categoria'];
+      _menuItems[categoria]?.add(MenuItem(
+        name: nuevoPlato['nombre'],
+        price: nuevoPlato['precio'],
+        image: nuevoPlato['imagen'],
+      ));
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Nuevo plato agregado')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final List<String> categorias = _menuItems.keys.toList();
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'ADMINISTRAR MENÚ',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF073B4C),
+          ),
         ),
         centerTitle: true,
+        elevation: 0,
+        leading: const BackButton(color: Color(0xFF073B4C)),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 19),
+            child: Icon(Icons.admin_panel_settings, color: Color(0xFF073B4C)),
+          )
+        ],
       ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 23),
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            ...menuItems.entries.map((entry) {
-              final categoria = entry.key;
-              final platos = entry.value;
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(bottom: 20),
+                children: [
+                  const SizedBox(height: 20),
+                  const CircularImageWidget(imagePath: './assets/images/white.png'),
+                  const MenuTitleWidget(),
+                  const SizedBox(height: 25),
+                  ...categorias.map((categoria) {
+                    final platos = _menuItems[categoria]!;
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 2,
-                  child: ExpansionTile(
-                    title: Text(
-                      categoria,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    children: platos.map((plato) {
-                      return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            plato['imagen'] ?? '',
-                            width: 60,
-                            height: 60,
-                            fit: BoxFit.cover,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          categoria,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF073B4C),
                           ),
                         ),
-                        title: Text(plato['nombre'] ?? ''),
-                        subtitle: Text(plato['precio'] ?? ''),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.green),
-                              onPressed: () {
-                                // Acción para editar
-                              },
+                        const SizedBox(height: 10),
+                        ...platos.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final plato = entry.value;
+
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            elevation: 2,
+                            child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  plato.image,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              title: Text(plato.name),
+                              subtitle: Text(plato.price),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _deleteDish(categoria, index),
+                              ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                // Acción para eliminar
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                          );
+                        }).toList(),
+                        const SizedBox(height: 15),
+                      ],
+                    );
+                  }).toList(),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    final nuevoPlato = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddDishScreen()),
+                    );
+
+                    if (nuevoPlato != null) {
+                      _agregarPlato(nuevoPlato);
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('AGREGAR NUEVO PLATO'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF073B4C),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
                 ),
-              );
-            }).toList(),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddDishScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              child: const Text('AGREGAR NUEVO PLATO'),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: _resetMenu,
+                  icon: const Icon(Icons.refresh),
+                  tooltip: 'Restablecer menú',
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.grey.shade300,
+                    shape: const CircleBorder(),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
 
