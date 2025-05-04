@@ -39,10 +39,11 @@ class _TableScreenState extends State<TableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'MESAS',
           style: TextStyle(
-            color: Color(0xFF073B4C), 
+            color: Color(0xFF073B4C),
             fontWeight: FontWeight.bold,
             fontSize: 25),
         ),
@@ -85,5 +86,3 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 }
-
-

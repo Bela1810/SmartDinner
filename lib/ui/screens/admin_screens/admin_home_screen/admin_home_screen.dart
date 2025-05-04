@@ -127,7 +127,7 @@ class _AdminHomeState extends State<AdminHome> {
                               title: Text(plato.name),
                               subtitle: Text(plato.price),
                               trailing: IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
+                                icon: const Icon(Icons.delete_outline, color: Colors.red),
                                 onPressed: () => _deleteDish(categoria, index),
                               ),
                             ),
@@ -154,12 +154,12 @@ class _AdminHomeState extends State<AdminHome> {
                       _agregarPlato(nuevoPlato);
                     }
                   },
-                  icon: const Icon(Icons.add),
-                  label: const Text('AGREGAR NUEVO PLATO'),
+                  icon: const Icon(Icons.add, color: Colors.white,),
+                  label: const Text('AGREGAR NUEVO PLATO', style: TextStyle( color: Colors.white),),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF073B4C),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 23),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -181,8 +181,3 @@ class _AdminHomeState extends State<AdminHome> {
     );
   }
 }
-
-
-
-
-

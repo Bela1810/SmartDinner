@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/ui/widgets/new_account.dart';
+import 'package:smartdinner/ui/widgets/account.dart';
 import 'package:smartdinner/ui/widgets/email.dart';
-import 'package:smartdinner/ui/widgets/login_button.dart';
 import 'package:smartdinner/ui/widgets/password.dart';
+import 'package:smartdinner/ui/widgets/register_button.dart';
+import 'package:smartdinner/ui/widgets/repeat_password.dart';
+import 'package:smartdinner/ui/widgets/user_name.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
+  final repeatPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 0),
@@ -32,38 +36,38 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
+                    padding: EdgeInsets.only(bottom: 10.0),
                     child: Text(
-                      'INICIAR SESIÓN',
+                      'REGISTRO',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Email(
-                      controller: email,
-                      hintText: 'Ingrese su correo...',
-                      obscureText: false,
-                    ),
+                  UserName(hintText: "Ingrese su Usuario", obscureText: false),
+                  Email(
+                    controller: email,
+                    hintText: 'Ingrese su correo...',
+                    obscureText: false,
                   ),
                   Password(
                     controller: password,
-                    hintText: 'Ingrese contraseña...',
+                    hintText: 'Ingrese su contraseña...',
                     obscureText: true,
                   ),
+                  RepeatPassword(
+                      controller: repeatPassword,
+                      hintText: "Ingrese nuevamente la contraseña",
+                      obscureText: true),
                   const SizedBox(height: 20),
-                  LoginButton(
-                    emailController: email,
-                    passwordController: password,
-                  ),
-                  const SizedBox(height: 20),
-                  NewAccount(),
+                  RegisterButton(
+                      emailController: email,
+                      passwordController: password,
+                      repeatPasswordController: repeatPassword),
+                  Account(),
                 ],
               ),
             ),
