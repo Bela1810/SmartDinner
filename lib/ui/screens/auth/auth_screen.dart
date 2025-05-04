@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartdinner/ui/screens/admin_screens/admin_home_screen/admin_home_screen.dart';
 import 'package:smartdinner/ui/widgets/new_account.dart';
 import 'package:smartdinner/ui/widgets/email.dart';
 import 'package:smartdinner/ui/widgets/login_button.dart';
@@ -64,6 +65,21 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   const SizedBox(height: 20),
                   NewAccount(),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AdminHome()),
+                      );
+                    },
+                    icon: const Icon(Icons.admin_panel_settings),
+                    label: const Text('Soy admin'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF073B4C),
+                    ),
+                  ),
                 ],
               ),
             ),
