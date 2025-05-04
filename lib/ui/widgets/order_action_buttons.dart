@@ -28,7 +28,10 @@ class OrderActionButtons extends StatelessWidget {
               ),
               child: const Text(
                 'ENVIAR PEDIDO',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
               ),
             ),
           ),
@@ -45,7 +48,10 @@ class OrderActionButtons extends StatelessWidget {
               ),
               child: const Text(
                 'PAGAR',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
               ),
             ),
           ),

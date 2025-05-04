@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/data/services/authentication/auth_service.dart';
 import 'package:smartdinner/model/table_model.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
@@ -32,11 +31,6 @@ class _TableScreenState extends State<TableScreen> {
     });
   }
 
-  Future<void> handleSignOut() async {
-    AuthService authService = AuthService();
-    await authService.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +51,7 @@ class _TableScreenState extends State<TableScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AuthScreen()));
-              }), //TO DO: Arreglar Cerrar
+              }), 
         ],
       ),
       body: Column(
@@ -96,3 +90,4 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 }
+

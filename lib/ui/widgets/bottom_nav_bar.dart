@@ -1,39 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/model/table_model.dart';
-import 'package:smartdinner/ui/screens/order_tables_screen/order_tables_screen.dart';
-import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
-import 'package:smartdinner/ui/screens/user_account_screen/user_account.dart';
+import 'package:smartdinner/ui/router.dart';
+
 
 class TableBottomNavBar extends StatelessWidget {
   final int currentIndex;
-  final List<TableModel> tables;  
+  final List<TableModel> tables;
 
   const TableBottomNavBar({super.key, required this.currentIndex, required this.tables});
-
-  void _onItemTapped(BuildContext context, int index) {
-    if (index == currentIndex) return;
-
-    switch (index) {
-      case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => TableScreen()),
-        );
-        break;
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => OrderTablesScreen(tables: tables)), 
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => UserAccountScreen()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +37,15 @@ class TableBottomNavBar extends StatelessWidget {
       ],
     );
   }
+
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == currentIndex) return;
+
+    navigateToScreen(context, index, tables);
+  }
 }
+
+
 
 
 

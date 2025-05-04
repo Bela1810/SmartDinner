@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/no_order_table.dart';
 import 'package:smartdinner/ui/widgets/order_table_card.dart';
 
@@ -50,6 +51,15 @@ class _OrderTablesScreenState extends State<OrderTablesScreen> {
                 );
               },
             ),
+          bottomNavigationBar: TableBottomNavBar(currentIndex: 1, tables: widget.tables)
     );
   }
 }
+
+
+
+
+
+
+
+

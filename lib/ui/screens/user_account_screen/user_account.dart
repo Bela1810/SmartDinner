@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/model/user_model.dart';
+import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/table_screen/table_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/profile_image.dart';
@@ -54,9 +55,13 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.list), //TO DO: Arreglar Cerrar
-            onPressed: () {},
-          ),
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AuthScreen()));
+              }), 
         ],
       ),
       body: SingleChildScrollView(
