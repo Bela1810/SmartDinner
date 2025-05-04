@@ -39,6 +39,7 @@ class _TableScreenState extends State<TableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'MESAS',
           style: TextStyle(

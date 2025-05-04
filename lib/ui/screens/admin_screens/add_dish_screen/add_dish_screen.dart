@@ -13,7 +13,8 @@ class _AddDishScreenState extends State<AddDishScreen> {
   String? _precio;
   String? _categoria;
 
-  final String imagenPorDefecto = 'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium';
+  final String imagenPorDefecto =
+      'https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg/medium';
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +24,39 @@ class _AddDishScreenState extends State<AddDishScreen> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(45),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage(imagenPorDefecto),
-                      fit: BoxFit.cover,
+                Stack(
+                  children: [
+                    Container(
+                      height: 300,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(imagenPorDefecto),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: CircleAvatar(
+                        radius: 22,
+                        backgroundColor: const Color(0xFF073B4C),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 26,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -51,6 +69,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 25),
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Precio'),
                   onSaved: (value) => _precio = value,
@@ -61,6 +80,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 25),
                 DropdownButtonFormField<String>(
                   value: _categoria,
                   decoration: const InputDecoration(labelText: 'Categoría'),
@@ -82,7 +102,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

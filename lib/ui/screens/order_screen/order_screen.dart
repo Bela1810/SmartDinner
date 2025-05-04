@@ -86,7 +86,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -121,9 +121,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         setState(() {
                           widget.table.status = 'Ordenada';
                         });
-
                         widget.updateTableStatus();
-
                         Navigator.of(context).pop();
                       },
                       child: const Text('Aceptar'),
@@ -169,7 +167,6 @@ class _OrderScreenState extends State<OrderScreen> {
 }
 
 //TO DO : Refactorizar este codigo y ver la forma de que se actualiza la pantalla principal sin necesidad de refrescar la pagina
-//TO DO : Arreglar card de esta vista
 
 
 

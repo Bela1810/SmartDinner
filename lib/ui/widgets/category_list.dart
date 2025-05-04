@@ -50,7 +50,7 @@ class CategoryTileWidget extends StatelessWidget {
       ),
       children: items
           .map((item) => Padding(
-                padding: EdgeInsets.all(9),
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 child: MenuItemCardWidget(item: item),
               ))
           .toList(),

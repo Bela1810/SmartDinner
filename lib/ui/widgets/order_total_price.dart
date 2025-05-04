@@ -10,8 +10,8 @@ class OrderTotalPrice extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.only(bottom: 1),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           color: const Color(0xFF073B4C),
           borderRadius: BorderRadius.circular(8),
@@ -19,6 +19,12 @@ class OrderTotalPrice extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Icon(
+              Icons.payments,
+              color: Colors.white,
+              size: 22,
+            ),
+            const SizedBox(width: 5),
             const Text(
               'PRECIO: ',
               style: TextStyle(
@@ -41,3 +47,4 @@ class OrderTotalPrice extends StatelessWidget {
     );
   }
 }
+

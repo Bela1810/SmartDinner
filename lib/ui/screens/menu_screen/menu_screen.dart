@@ -52,7 +52,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   SizedBox(height: 20),
                   CircularImageWidget(imagePath: './assets/images/white.png'),
                   MenuTitleWidget(),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
                   CategoryListWidget(categories: categories),
                 ],
               ),

@@ -24,15 +24,19 @@ class OrderActionButtons extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 17),
               ),
               child: const Text(
                 'ENVIAR PEDIDO',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                  ),
               ),
             ),
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 10),
           Expanded(
             child: ElevatedButton(
               onPressed: onPay,
@@ -41,11 +45,14 @@ class OrderActionButtons extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 17),
               ),
               child: const Text(
                 'PAGAR',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
               ),
             ),
           ),
