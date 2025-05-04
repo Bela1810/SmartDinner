@@ -15,19 +15,19 @@ class TableBottomNavBar extends StatelessWidget {
 
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => TableScreen()),
         );
         break;
       case 1:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => OrderTablesScreen(tables: tables)), 
         );
         break;
       case 2:
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => UserAccountScreen()),
         );
