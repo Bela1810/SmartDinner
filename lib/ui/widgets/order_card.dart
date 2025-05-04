@@ -72,11 +72,7 @@ class OrderItemCard extends StatelessWidget {
                     Text(
                       '${item.quantity}',
                       style: const TextStyle(
-<<<<<<< HEAD
                         fontSize: 16,
-=======
-                        fontSize: 16, 
->>>>>>> 53a38c02b65adbd9e94dce2a4337d8283873298f
                         fontWeight: FontWeight.bold),
                     ),
                     IconButton(

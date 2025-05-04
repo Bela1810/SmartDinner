@@ -28,11 +28,7 @@ class _OrderTablesScreenState extends State<OrderTablesScreen> {
         ),
       ),
       body: orderedTables.isEmpty
-<<<<<<< HEAD
           ? const NoOrderedTablesMessage()
-=======
-          ? const NoOrderedTablesMessage() 
->>>>>>> 53a38c02b65adbd9e94dce2a4337d8283873298f
           : GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,14 +52,4 @@ class _OrderTablesScreenState extends State<OrderTablesScreen> {
             ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
-
-
-
-
-
-
->>>>>>> 53a38c02b65adbd9e94dce2a4337d8283873298f

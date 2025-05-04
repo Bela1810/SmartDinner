@@ -168,14 +168,3 @@ class _OrderScreenState extends State<OrderScreen> {
 }
 
 //TO DO : Refactorizar este codigo y ver la forma de que se actualiza la pantalla principal sin necesidad de refrescar la pagina
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
->>>>>>> 53a38c02b65adbd9e94dce2a4337d8283873298f

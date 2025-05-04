@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/data/services/authentication/auth_service.dart';
 import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/table_card.dart';
@@ -23,7 +24,8 @@ class _TableScreenState extends State<TableScreen> {
 
   void updateTableStatus(int index) {
     final currentStatus = tableList[index].status;
-    final nextStatusIndex = (statusOptions.indexOf(currentStatus) + 1) % statusOptions.length;
+    final nextStatusIndex =
+        (statusOptions.indexOf(currentStatus) + 1) % statusOptions.length;
 
     setState(() {
       tableList[index].status = statusOptions[nextStatusIndex];
@@ -43,12 +45,19 @@ class _TableScreenState extends State<TableScreen> {
         title: Text(
           'MESAS',
           style: TextStyle(
-            color: Color(0xFF073B4C),
-            fontWeight: FontWeight.bold,
-            fontSize: 25),
+              color: Color(0xFF073B4C),
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.menu), onPressed: handleSignOut),  //TO DO: Arreglar Cerrar
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AuthScreen()));
+              }), //TO DO: Arreglar Cerrar
         ],
       ),
       body: Column(
@@ -82,7 +91,8 @@ class _TableScreenState extends State<TableScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: TableBottomNavBar(currentIndex: 0, tables: tableList),
+      bottomNavigationBar:
+          TableBottomNavBar(currentIndex: 0, tables: tableList),
     );
   }
 }

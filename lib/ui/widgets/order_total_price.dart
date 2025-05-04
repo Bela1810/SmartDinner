@@ -46,9 +46,4 @@ class OrderTotalPrice extends StatelessWidget {
       ),
     );
   }
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 53a38c02b65adbd9e94dce2a4337d8283873298f
