@@ -33,9 +33,9 @@ Esta aplicación está diseñada para **meseros en un restaurante** con el objet
 ## 🚀 Cómo Acceder a las vistas del Proyecto
 
 * Si vas a ingresar como mesero, puedes ingresar directamente sin llenar campos seleccionando el botón *Iniciar Sesión*
-* Si vas a ingresar como Administrador,
-      **Correo Electronico: admin@gmail.com **
-      **Contraseña: password **
+* Si vas a ingresar como Administrador:
+- Correo Electronico: admin@gmail.com 
+- Contraseña: password 
       
 
 
