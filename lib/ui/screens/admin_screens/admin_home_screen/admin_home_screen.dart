@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartdinner/model/menu_item.dart';
 import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
+import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/widgets/circular_image.dart';
 import 'package:smartdinner/ui/widgets/menu_title.dart';
 
@@ -72,7 +73,14 @@ class _AdminHomeState extends State<AdminHome> {
         ),
         centerTitle: true,
         elevation: 0,
-        leading: const BackButton(color: Color(0xFF073B4C)),
+        leading: IconButton(
+          icon: const Icon(Icons.output_rounded, color: Color(0xFF073B4C)),
+          onPressed: () {
+            Navigator.of(context).push( 
+              MaterialPageRoute(builder: (context) => const AuthScreen()),
+            );
+          },
+        ),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 19),
@@ -155,11 +163,11 @@ class _AdminHomeState extends State<AdminHome> {
                     }
                   },
                   icon: const Icon(Icons.add, color: Colors.white,),
-                  label: const Text('AGREGAR NUEVO PLATO', style: TextStyle( color: Colors.white),),
+                  label: const Text('AGREGAR NUEVO PLATO', style: TextStyle( color: Colors.white, fontWeight: FontWeight.bold),),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF073B4C),
+                    backgroundColor: Color(0xFF118AB2),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 23),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                   ),
                 ),
                 const SizedBox(width: 10),

@@ -20,7 +20,11 @@ class _AddDishScreenState extends State<AddDishScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AGREGAR PLATO'),
+        title: const Text('AGREGAR PLATO', 
+        style:TextStyle(
+          color: Color(0xFF073B4C),
+          fontWeight: FontWeight.bold
+        ),),
         centerTitle: true,
       ),
       body: Padding(
@@ -48,7 +52,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                       right: 10,
                       child: CircleAvatar(
                         radius: 22,
-                        backgroundColor: const Color(0xFF073B4C),
+                        backgroundColor: Color(0xFF073B4C),
                         child: const Icon(
                           Icons.edit,
                           color: Colors.white,
@@ -118,7 +122,14 @@ class _AddDishScreenState extends State<AddDishScreen> {
                       Navigator.pop(context, nuevoPlato);
                     }
                   },
-                  child: const Text('AGREGAR NUEVO PLATO'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF118AB2),
+                  ),
+                  child: const Text('AGREGAR NUEVO PLATO', style:
+                   TextStyle(
+                    color:  Colors.white,
+                    fontWeight: FontWeight.bold
+                   ),),
                 ),
               ],
             ),

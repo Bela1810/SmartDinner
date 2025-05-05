@@ -34,12 +34,6 @@ class _MenuScreenState extends State<MenuScreen> {
         centerTitle: true,
         elevation: 0,
         leading: const BackButton(color: Color(0xFF073B4C)),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 19),
-            child: Icon(Icons.menu, color: Color(0xFF073B4C)),
-          )
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 23),
