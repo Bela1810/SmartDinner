@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/order_item.dart';
-import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/domain/model/order_item.dart';
+import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/widgets/order_card.dart';
 import 'package:smartdinner/ui/widgets/order_total_price.dart';
 import 'package:smartdinner/ui/widgets/order_action_buttons.dart';

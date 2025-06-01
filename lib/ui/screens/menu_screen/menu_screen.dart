@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
 import 'package:smartdinner/ui/widgets/button_order.dart';
 import 'package:smartdinner/ui/widgets/category_list.dart';

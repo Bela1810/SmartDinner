@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/order_item.dart';
+import 'package:smartdinner/domain/model/order_item.dart';
 
 class OrderItemCard extends StatelessWidget {
   final OrderItem item;

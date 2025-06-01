@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';

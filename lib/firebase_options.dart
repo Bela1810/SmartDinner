@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show defaultTargetPlatform, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -16,39 +16,15 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return web;
-    }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
-        return macos;
-      case TargetPlatform.windows:
-        return windows;
-      case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
         );
     }
   }
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBVkbv3RlLhVwGsECVfTlKNWh0OQy8yyFU',
-    appId: '1:934831951990:web:511ba25375be39a9188f57',
-    messagingSenderId: '934831951990',
-    projectId: 'smartdinner-b7251',
-    authDomain: 'smartdinner-b7251.firebaseapp.com',
-    storageBucket: 'smartdinner-b7251.firebasestorage.app',
-    measurementId: 'G-VXLE8QEJZH',
-  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB2hzUnrJnOxMb0MH6irpDx2RknDqQXPa8',
@@ -57,33 +33,4 @@ class DefaultFirebaseOptions {
     projectId: 'smartdinner-b7251',
     storageBucket: 'smartdinner-b7251.firebasestorage.app',
   );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC8e_XS-Cx2o__iq0P6fcHM24EbqZnSe3c',
-    appId: '1:934831951990:ios:d2ca6a927e9ae82e188f57',
-    messagingSenderId: '934831951990',
-    projectId: 'smartdinner-b7251',
-    storageBucket: 'smartdinner-b7251.firebasestorage.app',
-    iosBundleId: 'com.example.smartdinner',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC8e_XS-Cx2o__iq0P6fcHM24EbqZnSe3c',
-    appId: '1:934831951990:ios:d2ca6a927e9ae82e188f57',
-    messagingSenderId: '934831951990',
-    projectId: 'smartdinner-b7251',
-    storageBucket: 'smartdinner-b7251.firebasestorage.app',
-    iosBundleId: 'com.example.smartdinner',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBVkbv3RlLhVwGsECVfTlKNWh0OQy8yyFU',
-    appId: '1:934831951990:web:a974d1799b1f9f65188f57',
-    messagingSenderId: '934831951990',
-    projectId: 'smartdinner-b7251',
-    authDomain: 'smartdinner-b7251.firebaseapp.com',
-    storageBucket: 'smartdinner-b7251.firebasestorage.app',
-    measurementId: 'G-TFQ79HG12D',
-  );
-
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/widgets/box_description.dart';
 
 class TableDescription extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/menu_item.dart';
+import 'package:smartdinner/domain/model/menu_item.dart';
 import 'package:smartdinner/ui/widgets/menu_card.dart';
 
 class CategoryListWidget extends StatelessWidget {

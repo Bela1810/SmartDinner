@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/menu_item.dart';
+import 'package:smartdinner/domain/model/menu_item.dart';
 import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/widgets/circular_image.dart';
@@ -76,7 +76,7 @@ class _AdminHomeState extends State<AdminHome> {
         leading: IconButton(
           icon: const Icon(Icons.output_rounded, color: Color(0xFF073B4C)),
           onPressed: () {
-            Navigator.of(context).push( 
+            Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const AuthScreen()),
             );
           },
@@ -97,7 +97,8 @@ class _AdminHomeState extends State<AdminHome> {
                 padding: const EdgeInsets.only(bottom: 20),
                 children: [
                   const SizedBox(height: 20),
-                  const CircularImageWidget(imagePath: './assets/images/white.png'),
+                  const CircularImageWidget(
+                      imagePath: './assets/images/white.png'),
                   const MenuTitleWidget(),
                   const SizedBox(height: 25),
                   ...categorias.map((categoria) {
@@ -135,7 +136,8 @@ class _AdminHomeState extends State<AdminHome> {
                               title: Text(plato.name),
                               subtitle: Text(plato.price),
                               trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline, color: Colors.red),
+                                icon: const Icon(Icons.delete_outline,
+                                    color: Colors.red),
                                 onPressed: () => _deleteDish(categoria, index),
                               ),
                             ),
@@ -155,19 +157,29 @@ class _AdminHomeState extends State<AdminHome> {
                   onPressed: () async {
                     final nuevoPlato = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AddDishScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const AddDishScreen()),
                     );
 
                     if (nuevoPlato != null) {
                       _agregarPlato(nuevoPlato);
                     }
                   },
-                  icon: const Icon(Icons.add, color: Colors.white,),
-                  label: const Text('AGREGAR NUEVO PLATO', style: TextStyle( color: Colors.white, fontWeight: FontWeight.bold),),
+                  icon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'AGREGAR NUEVO PLATO',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF118AB2),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 20),
                   ),
                 ),
                 const SizedBox(width: 10),

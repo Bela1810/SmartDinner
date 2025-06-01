@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/model/table_model.dart';
+import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/router.dart';
 
 
@@ -44,8 +44,3 @@ class TableBottomNavBar extends StatelessWidget {
     navigateToScreen(context, index, tables);
   }
 }
-
-
-
-
-
