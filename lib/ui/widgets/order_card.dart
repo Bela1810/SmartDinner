@@ -18,25 +18,26 @@ class OrderItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 13),
-      padding: EdgeInsets.all(8),
+      margin: const EdgeInsets.only(bottom: 13),
+      padding: const EdgeInsets.all(7),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(237, 251, 255, 1),
-        border: Border.all(color: Color(0xFF073B4C), width: 2),
+        color: const Color.fromRGBO(237, 251, 255, 1),
+        border: Border.all(color: const Color(0xFF073B4C), width: 2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               item.image,
-              width: 90,
-              height: 90,
+              width: 80,
+              height: 80,
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 25),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +49,8 @@ class OrderItemCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF073B4C),
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 Text(
                   '${item.unitPrice} COP',
@@ -61,24 +64,36 @@ class OrderItemCard extends StatelessWidget {
                     const Text(
                       'Cantidad:',
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.remove_circle_outline),
                       onPressed: onDecrease,
-                      color: Color(0xFF073B4C),
+                      iconSize: 19,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      color: const Color(0xFF073B4C),
                     ),
-                    Text(
-                      '${item.quantity}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: 15,
+                      child: Text(
+                        '${item.quantity}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.add_circle_outline),
+                      iconSize: 19,
                       onPressed: onIncrease,
-                      color: Color(0xFF073B4C),
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      color: const Color(0xFF073B4C),
                     ),
                   ],
                 ),
@@ -86,8 +101,12 @@ class OrderItemCard extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline, color: Colors.red),
+            icon: const Icon(Icons.delete_outline),
             onPressed: onDelete,
+            iconSize: 24,
+            color: const Color(0XFFEF476F),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
           ),
         ],
       ),

@@ -19,56 +19,66 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF073B4C),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 0),
-              child: Image.asset(
-                './assets/images/dark.png',
-                width: 320,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0),
+                        child: Image.asset(
+                          './assets/images/dark.png',
+                          width: 320,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 30.0),
+                            child: Text(
+                              'INICIAR SESIÓN',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Email(
+                              controller: email,
+                              hintText: 'Ingrese su correo...',
+                              obscureText: false,
+                            ),
+                          ),
+                          Password(
+                            controller: password,
+                            hintText: 'Ingrese contraseña...',
+                            obscureText: true,
+                          ),
+                          const SizedBox(height: 20),
+                          LoginButton(
+                            emailController: email,
+                            passwordController: password,
+                          ),
+                          const SizedBox(height: 20),
+                          NewAccount(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
-                    child: Text(
-                      'INICIAR SESIÓN',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Email(
-                      controller: email,
-                      hintText: 'Ingrese su correo...',
-                      obscureText: false,
-                    ),
-                  ),
-                  Password(
-                    controller: password,
-                    hintText: 'Ingrese contraseña...',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 20),
-                  LoginButton(
-                    emailController: email,
-                    passwordController: password,
-                  ),
-                  const SizedBox(height: 20),
-                  NewAccount(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

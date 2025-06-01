@@ -22,57 +22,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF073B4C),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 0),
-              child: Image.asset(
-                './assets/images/dark.png',
-                width: 320,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 0),
+                        child: Image.asset(
+                          './assets/images/dark.png',
+                          width: 320,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          'REGISTRO',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      UserName(
+                        hintText: "Ingrese su Usuario",
+                        obscureText: false,
+                      ),
+                      const SizedBox(height: 10),
+                      Email(
+                        controller: email,
+                        hintText: 'Ingrese su correo...',
+                        obscureText: false,
+                      ),
+                      const SizedBox(height: 10),
+                      Password(
+                        controller: password,
+                        hintText: 'Ingrese su contraseña...',
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 10),
+                      RepeatPassword(
+                        controller: repeatPassword,
+                        hintText: "Ingrese nuevamente la contraseña",
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 20),
+                      RegisterButton(
+                        emailController: email,
+                        passwordController: password,
+                        repeatPasswordController: repeatPassword,
+                      ),
+                      const SizedBox(height: 10),
+                      Account(),
+                    ],
+                  ),
+                ),
               ),
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      'REGISTRO',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  UserName(hintText: "Ingrese su Usuario", obscureText: false),
-                  Email(
-                    controller: email,
-                    hintText: 'Ingrese su correo...',
-                    obscureText: false,
-                  ),
-                  Password(
-                    controller: password,
-                    hintText: 'Ingrese su contraseña...',
-                    obscureText: true,
-                  ),
-                  RepeatPassword(
-                      controller: repeatPassword,
-                      hintText: "Ingrese nuevamente la contraseña",
-                      obscureText: true),
-                  const SizedBox(height: 20),
-                  RegisterButton(
-                      emailController: email,
-                      passwordController: password,
-                      repeatPasswordController: repeatPassword),
-                  Account(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

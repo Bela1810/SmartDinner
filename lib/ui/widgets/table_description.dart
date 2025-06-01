@@ -19,7 +19,7 @@ class TableDescription extends StatelessWidget {
       children: [
         const SizedBox(height: 20),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 17),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'DESCRIPCIÓN DE MESAS',
             style: TextStyle(
@@ -29,17 +29,29 @@ class TableDescription extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 7),
         Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
           child: Wrap(
             alignment: WrapAlignment.start,
-            spacing: 13,
+            spacing: 4,
             children: [
-              DescriptionBox(value: '$total', label: 'Total', color: const Color(0xFF878282)),
-              DescriptionBox(value: '$available', label: 'Disponible', color: const Color(0XFF06D6A0)),
-              DescriptionBox(value: '$occupied', label: 'Ocupada', color: const Color(0XFFEF476F)),
-              DescriptionBox(value: '$orders', label: 'Ordenada', color: const Color(0XFFFFD166)),
+              DescriptionBox(
+                  value: '$total',
+                  label: 'Total',
+                  color: const Color(0xFF878282)),
+              DescriptionBox(
+                  value: '$available',
+                  label: 'Disponible',
+                  color: const Color(0XFF06D6A0)),
+              DescriptionBox(
+                  value: '$occupied',
+                  label: 'Ocupada',
+                  color: const Color(0XFFEF476F)),
+              DescriptionBox(
+                  value: '$orders',
+                  label: 'Ordenada',
+                  color: const Color(0XFFFFD166)),
             ],
           ),
         ),
@@ -48,5 +60,3 @@ class TableDescription extends StatelessWidget {
     );
   }
 }
-
-

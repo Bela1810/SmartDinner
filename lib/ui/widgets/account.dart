@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 
@@ -11,10 +10,8 @@ class Account extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AuthScreen()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AuthScreen()));
           },
           child: Text(
             "¿No te encuentras registrado?",
@@ -26,5 +23,4 @@ class Account extends StatelessWidget {
       ],
     );
   }
-
 }

@@ -51,7 +51,7 @@ class _TableScreenState extends State<TableScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AuthScreen()));
-              }), 
+              }),
         ],
       ),
       body: Column(
@@ -59,7 +59,7 @@ class _TableScreenState extends State<TableScreen> {
           TableDescription(tables: tableList),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(10),
               itemCount: tableList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -90,4 +90,3 @@ class _TableScreenState extends State<TableScreen> {
     );
   }
 }
-
