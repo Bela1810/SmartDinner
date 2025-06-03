@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, TargetPlatform;
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -16,9 +16,35 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
+    }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
+      case TargetPlatform.iOS:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.macOS:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -27,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB2hzUnrJnOxMb0MH6irpDx2RknDqQXPa8',
-    appId: '1:934831951990:android:0bc23fd771e85297188f57',
-    messagingSenderId: '934831951990',
-    projectId: 'smartdinner-b7251',
-    storageBucket: 'smartdinner-b7251.firebasestorage.app',
+    apiKey: 'AIzaSyCf-ygd7COiQ2xf5yqSFKxbETDlF_vLa2s',
+    appId: '1:584082737950:android:82df7a8b3ec832da9cd70f',
+    messagingSenderId: '584082737950',
+    projectId: 'final-be1bd',
+    storageBucket: 'final-be1bd.firebasestorage.app',
   );
+
 }

@@ -1,10 +1,20 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartdinner/firebase_options.dart';
+import 'package:smartdinner/ui/navigation/routers.dart';
 
 void main() async {
-  await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.debug,
+  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,15 +22,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SmartDinner',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 255, 255, 255)),
-        useMaterial3: true,
-      ),
-      home: AuthScreen(),
-    );
+    return MaterialApp.router(
+        title: 'SmartDinner',
+        debugShowCheckedModeBanner: false,
+        routerConfig: router);
   }
 }

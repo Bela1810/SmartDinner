@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
+import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/table_card.dart';
 import 'package:smartdinner/ui/widgets/table_description.dart';
 
-class TableScreen extends StatefulWidget {
+class TableScreen extends ConsumerStatefulWidget {
   const TableScreen({super.key});
 
   @override
-  _TableScreenState createState() => _TableScreenState();
+  ConsumerState<TableScreen> createState() => _TableScreenState();
 }
 
-class _TableScreenState extends State<TableScreen> {
+class _TableScreenState extends ConsumerState<TableScreen> {
   List<TableModel> tableList = List.generate(
     16,
     (i) => TableModel(name: "Mesa ${i + 1}", status: "Disponible"),
@@ -45,13 +48,12 @@ class _TableScreenState extends State<TableScreen> {
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AuthScreen()));
-              }),
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              ref.read(loginControllerProvider.notifier).logout();
+              context.go('/auth'); 
+            },
+          ),
         ],
       ),
       body: Column(

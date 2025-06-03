@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartdinner/provider/auth_validator_provider.dart';
+import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/ui/widgets/new_account.dart';
-import 'package:smartdinner/ui/widgets/email.dart';
-import 'package:smartdinner/ui/widgets/login_button.dart';
-import 'package:smartdinner/ui/widgets/password.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
-  final email = TextEditingController();
-  final password = TextEditingController();
+class _AuthScreenState extends ConsumerState<AuthScreen> {
+  bool _isPasswordVisible = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final emailValidator = ref.read(emailValidatorProvider);
+    final passwordValidator = ref.read(passwordValidatorProvider);
     return Scaffold(
       backgroundColor: const Color(0xFF073B4C),
       body: LayoutBuilder(
@@ -39,37 +43,129 @@ class _AuthScreenState extends State<AuthScreen> {
                       const SizedBox(height: 20),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
                             padding: EdgeInsets.only(bottom: 30.0),
-                            child: Text(
-                              'INICIAR SESIÓN',
-                              style: TextStyle(
+                            child: Center(
+                              child: Text(
+                                'INICIAR SESIÓN',
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Email(
-                              controller: email,
-                              hintText: 'Ingrese su correo...',
-                              obscureText: false,
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Correo',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextFormField(
+                                  controller: _emailController,
+                                  textInputAction: TextInputAction.next,
+                                  style: const TextStyle(color: Colors.white),
+                                  validator: emailValidator,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Ingrese su correo...',
+                                    prefixIcon: Icon(Icons.email_outlined),
+                                    hintStyle: TextStyle(color: Colors.white70),
+                                    border: OutlineInputBorder(),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white70),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'Contraseña',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                TextFormField(
+                                  controller: _passwordController,
+                                  style: const TextStyle(color: Colors.white),
+                                  validator: passwordValidator,
+                                  obscureText: !_isPasswordVisible,
+                                  decoration: InputDecoration(
+                                    hintText: 'Ingrese contraseña...',
+                                    prefixIcon: const Icon(Icons.lock_outline),
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white70),
+                                    border: const OutlineInputBorder(),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white70),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _isPasswordVisible
+                                            ? Icons.visibility_outlined
+                                            : Icons.visibility_off_outlined,
+                                        color: Colors.white70,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isPasswordVisible =
+                                              !_isPasswordVisible;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState?.validate() ??
+                                          false) {
+                                        ref
+                                            .read(loginControllerProvider
+                                                .notifier)
+                                            .login(_emailController.text,
+                                                _passwordController.text);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 16),
+                                      backgroundColor: Color(0xFF118AB2),
+                                      foregroundColor: Colors.black,
+                                    ),
+                                    child: const Text(
+                                      'Iniciar Sesion',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Password(
-                            controller: password,
-                            hintText: 'Ingrese contraseña...',
-                            obscureText: true,
-                          ),
                           const SizedBox(height: 20),
-                          LoginButton(
-                            emailController: email,
-                            passwordController: password,
-                          ),
-                          const SizedBox(height: 20),
-                          NewAccount(),
+                          Center(child: const NewAccount()),
                         ],
                       ),
                     ],
