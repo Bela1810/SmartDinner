@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -53,11 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCf-ygd7COiQ2xf5yqSFKxbETDlF_vLa2s',
-    appId: '1:584082737950:android:82df7a8b3ec832da9cd70f',
-    messagingSenderId: '584082737950',
-    projectId: 'final-be1bd',
-    storageBucket: 'final-be1bd.firebasestorage.app',
+    apiKey: 'AIzaSyAXm9CFKegSu3k70JN-D37qRDz_PoFrmyw',
+    appId: '1:577719590981:android:92fb757d9b6852ff8d832c',
+    messagingSenderId: '577719590981',
+    projectId: 'smartdinner-8af29',
+    storageBucket: 'smartdinner-8af29.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBOsdEnqzQJTd6veWZ10FyhlyOfDGtsXKU',
+    appId: '1:577719590981:ios:7d33f80b9037b4fe8d832c',
+    messagingSenderId: '577719590981',
+    projectId: 'smartdinner-8af29',
+    storageBucket: 'smartdinner-8af29.firebasestorage.app',
+    iosBundleId: 'com.example.smartdinner',
   );
 
 }

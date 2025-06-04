@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "584082737950",
-    "project_id": "final-be1bd",
-    "storage_bucket": "final-be1bd.firebasestorage.app"
+    "project_number": "577719590981",
+    "project_id": "smartdinner-8af29",
+    "storage_bucket": "smartdinner-8af29.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:584082737950:android:82df7a8b3ec832da9cd70f",
+        "mobilesdk_app_id": "1:577719590981:android:92fb757d9b6852ff8d832c",
         "android_client_info": {
           "package_name": "com.example.smartdinner"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCf-ygd7COiQ2xf5yqSFKxbETDlF_vLa2s"
+          "current_key": "AIzaSyAXm9CFKegSu3k70JN-D37qRDz_PoFrmyw"
         }
       ],
       "services": {
