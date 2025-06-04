@@ -1,43 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smartdinner/controller/login_state.dart';
-import 'package:smartdinner/domain/model/login_params.dart';
-import 'package:smartdinner/domain/model/register_params.dart';
+import 'package:smartdinner/data/repository/auth_repository.dart';
 import 'package:smartdinner/provider/repository_provider.dart';
 
-class LoginController extends StateNotifier<LoginState> {
-  final Ref ref;
+final authControllerProvider =
+    StateNotifierProvider<AuthController, AsyncValue<void>>((ref) {
+  final repository = ref.read(authRepositoryProvider);
+  return AuthController(repository);
+});
 
-  LoginController(this.ref) : super(const LoginStateInitial());
+class AuthController extends StateNotifier<AsyncValue<void>> {
+  final AuthRepository repository;
 
-  void login(String email, String password) async {
-    state = const LoginStateLoading();
+  AuthController(this.repository) : super(const AsyncData(null));
+
+  Future<void> login(String email, String password) async {
+    state = const AsyncLoading();
     try {
-      await ref
-          .read(authRepositoryProvider)
-          .login(LoginParams(email: email, password: password));
-      state = const LoginStateSuccess();
-    } catch (exc) {
-      state = LoginStateError(exc.toString());
+      await repository.login(email, password);
+      state = const AsyncData(null);
+    } catch (e, st) {
+      state = AsyncError(e, st);
     }
-  }
-
-  void logout() async {
-    await ref.read(authRepositoryProvider).logout();
   }
 }
 
 class RegisterController extends StateNotifier<RegisterState> {
-  final Ref ref;
-  RegisterController(this.ref) : super(const RegisterStateInitial());
+  final AuthRepository repository;
 
-  void register(String name, String email, String password) async {
+  RegisterController(this.repository) : super(const RegisterStateInitial());
+
+  Future<void> register(String name, String email, String password) async {
     state = const RegisterStateLoading();
     try {
-      await ref.read(authRepositoryProvider).register(
-          RegisterParams(name: name, email: email, password: password));
+      await repository.register(email, password, name);
       state = const RegisterStateSuccess();
-    } catch (exc) {
-      state = RegisterStateError(exc.toString());
+    } catch (e) {
+      state = RegisterStateError(e.toString());
     }
   }
 }

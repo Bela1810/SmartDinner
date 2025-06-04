@@ -50,8 +50,8 @@ class _TableScreenState extends ConsumerState<TableScreen> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
-              ref.read(loginControllerProvider.notifier).logout();
-              context.go('/auth'); 
+              //ref.read(loginControllerProvider.notifier).logout();
+              context.go('/auth');
             },
           ),
         ],

@@ -1,40 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smartdinner/domain/datasource/auth_datasource.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseServiceDatasource extends AuthDatasource {
-  final FirebaseAuth _auth;
-
-  FirebaseServiceDatasource(this._auth);
+class FirebaseServiceDatasource implements AuthDatasource {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<User?> login(String email, String password) async {
-    try {
-      final result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return result.user;
-    } on FirebaseAuthException catch (exception) {
-      if (exception.code == 'user-not-found') {
-        throw Exception('Usuario no encontrado');
-      } else if (exception.code == 'wrong-password') {
-        throw Exception('Contraseña incorrecta');
-      } else {
-        throw Exception('Error de autenticación: ${exception.message}');
-      }
-    }
+  Future<void> login(String email, String password) async {
+    await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   @override
   Future<void> register(String name, String email, String password) async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    // Para agregar el nombre
-    await FirebaseAuth.instance.currentUser?.updateDisplayName(name);
-  }
 
-  @override
-  Future<void> logout() async {
-    await _auth.signOut();
+    final uid = userCredential.user?.uid;
+    if (uid != null) {
+      await _firestore.collection('users').doc(uid).set({
+        'name': name,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
   }
 }
