@@ -28,7 +28,7 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
       height: 115,
       margin: const EdgeInsets.symmetric(horizontal: 1),
       child: Card(
-        color: Color.fromRGBO(237, 251, 255, 1) ,
+        color: Color.fromRGBO(237, 251, 255, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: const BorderSide(color: Color(0xFF073B4C), width: 2),
@@ -37,12 +37,12 @@ class _MenuItemCardWidgetState extends State<MenuItemCardWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 13),
           child: Row(
             children: [
-              ProductImage(url: widget.item.image),
+              ProductImage(url: widget.item.imageUrl),
               const SizedBox(width: 12),
               Expanded(
                 child: ProductDetails(
                   nombre: widget.item.name,
-                  precio: widget.item.price,
+                  precio: widget.item.price.toString(),
                 ),
               ),
               SelectionButton(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartdinner/controller/menu_controller.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
 import 'package:smartdinner/ui/widgets/button_order.dart';
@@ -6,25 +8,20 @@ import 'package:smartdinner/ui/widgets/category_list.dart';
 import 'package:smartdinner/ui/widgets/circular_image.dart';
 import 'package:smartdinner/ui/widgets/menu_title.dart';
 
-class MenuScreen extends StatefulWidget {
+class MenuScreen extends ConsumerWidget {
   final TableModel table;
 
   const MenuScreen({super.key, required this.table});
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final menuState = ref.watch(menuControllerProvider);
 
-class _MenuScreenState extends State<MenuScreen> {
-  final List<String> categories = ['Entradas', 'Platos', 'Bebidas', 'Postres'];
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'ORDEN ${widget.table.name.toUpperCase()}',
+          'ORDEN ${table.name.toUpperCase()}',
           style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -40,15 +37,22 @@ class _MenuScreenState extends State<MenuScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(bottom: 20),
-                children: [
-                  SizedBox(height: 20),
-                  CircularImageWidget(imagePath: './assets/images/white.png'),
-                  MenuTitleWidget(),
-                  SizedBox(height: 20),
-                  CategoryListWidget(categories: categories),
-                ],
+              child: menuState.when(
+                data: (menuItems) => ListView(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  children: [
+                    const SizedBox(height: 20),
+                    const CircularImageWidget(
+                        imagePath: './assets/images/white.png'),
+                    const MenuTitleWidget(),
+                    const SizedBox(height: 20),
+                    CategoryListWidget(
+                      menuItems: menuItems,
+                    ),
+                  ],
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text('Error: $e')),
               ),
             ),
             ViewOrderButton(
@@ -57,7 +61,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => OrderScreen(
-                      table: widget.table,
+                      table: table,
                       updateTableStatus: () {},
                     ),
                   ),

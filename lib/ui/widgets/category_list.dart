@@ -3,17 +3,21 @@ import 'package:smartdinner/domain/model/menu_item.dart';
 import 'package:smartdinner/ui/widgets/menu_card.dart';
 
 class CategoryListWidget extends StatelessWidget {
-  final List<String> categories;
+  final Map<String, List<MenuItem>> menuItems;
 
-  const CategoryListWidget({super.key, required this.categories});
+  const CategoryListWidget({
+    super.key,
+    required this.menuItems,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      children: categories.map((category) {
-        final List<MenuItem> items = MenuItem.menuItems[category] ?? [];
+      children: menuItems.entries.map((entry) {
+        final category = entry.key;
+        final items = entry.value;
         return CategoryTileWidget(category: category, items: items);
       }).toList(),
     );
@@ -34,7 +38,7 @@ class CategoryTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: const Color(0xFFD9D9D9),
           borderRadius: BorderRadius.circular(8),
@@ -49,8 +53,9 @@ class CategoryTileWidget extends StatelessWidget {
         ),
       ),
       children: items
+          .take(10)
           .map((item) => Padding(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 child: MenuItemCardWidget(item: item),
               ))
           .toList(),
