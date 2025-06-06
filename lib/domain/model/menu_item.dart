@@ -1,81 +1,43 @@
-// menu_item.dart (Modelo)
 class MenuItem {
+  final String id;
   final String name;
-  final String price;
-  final String image;
+  final String imageUrl;
+  final int price;
+  final String category;
 
   MenuItem({
+    required this.id,
     required this.name,
+    required this.imageUrl,
     required this.price,
-    required this.image,
+    required this.category,
   });
 
-  factory MenuItem.fromMap(Map<String, dynamic> map) {
+  factory MenuItem.fromMealJson(Map<String, dynamic> json, String category) {
+    final id = json['idMeal'];
     return MenuItem(
-      name: map['name'],
-      price: map['price'],
-      image: map['image'],
+      id: id,
+      name: json['strMeal'],
+      imageUrl: json['strMealThumb'],
+      price: generatePriceFromId(id),
+      category: category,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'price': price,
-      'image': image,
-    };
+  factory MenuItem.fromDrinkJson(Map<String, dynamic> json, String category) {
+    final id = json['idDrink'];
+    return MenuItem(
+      id: id,
+      name: json['strDrink'],
+      imageUrl: json['strDrinkThumb'],
+      price: generatePriceFromId(id),
+      category: category,
+    );
   }
+}
 
-
-  static final Map<String, List<MenuItem>> menuItems = {  //Lista Quemada
-    'Entradas': [
-      MenuItem(
-        name: 'Empanadas',
-        price: '10.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/45xxr21593348847.jpg',
-      ),
-      MenuItem(
-        name: 'Tacos',
-        price: '12.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/uvuyxu1503067369.jpg',
-      ),
-    ],
-    'Platos': [
-      MenuItem(
-        name: 'Pollo a la Salsa',
-        price: '25.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/tytyxu1515363282.jpg',
-      ),
-      MenuItem(
-        name: 'Sopa de Tomate',
-        price: '20.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/stpuws1511191310.jpg',
-      ),
-      MenuItem(
-        name: 'Hamburguesas Tocineta',
-        price: '40.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/vdwloy1713225718.jpg',
-      ),
-
-    ],
-    'Bebidas': [
-      MenuItem(
-        name: 'Malteada de Cereza',
-        price: '15.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/uuxwvq1483907861.jpg',
-      ),
-    ],
-    'Postres': [
-      MenuItem(
-        name: 'Torta de Nueces',
-        price: '30.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/wxyvqq1511723401.jpg',
-      ),
-      MenuItem(
-        name: 'Galletas Horneadas',
-        price: '9.000 COP',
-        image: 'https://www.themealdb.com/images/media/meals/qe8pf51576795532.jpg',
-      ),
-    ],
-  };
+// Utilidad
+int generatePriceFromId(String id) {
+  final idNumber = int.tryParse(id.replaceAll(RegExp(r'[^\d]'), '')) ?? 0;
+  return 8000 + (idNumber % 7000);
 }

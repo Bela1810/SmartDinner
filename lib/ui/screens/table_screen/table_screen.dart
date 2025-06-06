@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/provider/controller_provider.dart';
-import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/table_card.dart';
@@ -51,7 +50,7 @@ class _TableScreenState extends ConsumerState<TableScreen> {
             icon: Icon(Icons.logout),
             onPressed: () {
               ref.read(loginControllerProvider.notifier).logout();
-              context.go('/auth'); 
+              context.go('/auth');
             },
           ),
         ],
