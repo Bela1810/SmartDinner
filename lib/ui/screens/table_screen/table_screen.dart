@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smartdinner/controller/auth_controller.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
@@ -48,9 +49,9 @@ class _TableScreenState extends ConsumerState<TableScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () { feature/second-increment
-              ref.read(loginControllerProvider.notifier).logout();
-            
+            onPressed: () {
+              ref.read(authControllerProvider.notifier).logout();
+
               context.go('/auth');
             },
           ),

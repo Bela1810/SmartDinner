@@ -27,4 +27,9 @@ class FirebaseServiceDatasource implements AuthDatasource {
       });
     }
   }
+
+  @override
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }

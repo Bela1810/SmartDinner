@@ -12,4 +12,8 @@ class AuthRepository {
   Future<void> register(String email, String password, String name) {
     return datasource.register(name, email, password);
   }
+
+  Future<void> logout() {
+    return datasource.logout();
+  }
 }

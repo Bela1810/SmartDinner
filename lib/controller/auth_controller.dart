@@ -23,6 +23,16 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       state = AsyncError(e, st);
     }
   }
+
+  Future<void> logout() async {
+    state = const AsyncLoading();
+    try {
+      await repository.logout();
+      state = const AsyncData(null);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
 }
 
 class RegisterController extends StateNotifier<RegisterState> {

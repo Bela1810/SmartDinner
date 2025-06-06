@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smartdinner/controller/login_state.dart';
 import 'package:smartdinner/provider/auth_validator_provider.dart';
 import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/ui/widgets/new_account.dart';
@@ -23,13 +22,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     final emailValidator = ref.read(emailValidatorProvider);
     final passwordValidator = ref.read(passwordValidatorProvider);
-    ref.listen<LoginState>(loginControllerProvider, (previous, next) {
-      if (next is LoginStateSuccess) {
+    ref.listen<AsyncValue<void>>(loginControllerProvider, (previous, next) {
+      if (next is AsyncData<void>) {
         context.go('/home');
       }
-      if (next is LoginStateError) {
+      if (next is AsyncError) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.errorMessage)),
+          SnackBar(content: Text(next.error.toString())),
         );
       }
     });
