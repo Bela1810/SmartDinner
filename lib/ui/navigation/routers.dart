@@ -12,11 +12,14 @@ final GoRouter router = GoRouter(initialLocation: '/auth', routes: [
         return const TableScreen();
       }),
   GoRoute(
-      path: '/auth', builder: (context, state) => const LoginValidatorScreen()),
-  GoRoute(
       path: '/register',
       name: 'register',
       builder: (BuildContext context, GoRouterState state) {
         return const RegisterScreen();
-      })
+      }),
+  GoRoute(
+    path: '/auth',
+    name: 'auth',
+    builder: (context, state) => const LoginValidatorScreen(),
+  )
 ]);

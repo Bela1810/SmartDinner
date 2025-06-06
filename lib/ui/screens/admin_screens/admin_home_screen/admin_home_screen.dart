@@ -1,55 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartdinner/controller/menu_controller.dart';
 import 'package:smartdinner/domain/model/menu_item.dart';
 import 'package:smartdinner/ui/screens/admin_screens/add_dish_screen/add_dish_screen.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/widgets/circular_image.dart';
 import 'package:smartdinner/ui/widgets/menu_title.dart';
 
-class AdminHome extends StatefulWidget {
+class AdminHome extends ConsumerStatefulWidget {
   const AdminHome({super.key});
 
   @override
-  State<AdminHome> createState() => _AdminHomeState();
+  ConsumerState<AdminHome> createState() => _AdminHomeState();
 }
 
-class _AdminHomeState extends State<AdminHome> {
-  late Map<String, List<MenuItem>> _menuItems;
-
-  @override
-  void initState() {
-    super.initState();
-    _resetMenu();
-  }
-
+class _AdminHomeState extends ConsumerState<AdminHome> {
   void _deleteDish(String category, int index) {
-    setState(() {
-      _menuItems[category]!.removeAt(index);
-    });
+    final menuController = ref.read(menuControllerProvider.notifier);
+    final currentMenu = ref.read(menuControllerProvider).value;
+
+    if (currentMenu != null) {
+      final updatedMenu = {...currentMenu};
+      updatedMenu[category]?.removeAt(index);
+
+      menuController.state = AsyncData(updatedMenu);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Plato eliminado')),
     );
   }
 
-  void _resetMenu() {
-    setState(() {
-      _menuItems = Map.fromEntries(
-        MenuItem.menuItems.entries.map(
-          (e) => MapEntry(e.key, List<MenuItem>.from(e.value)),
-        ),
-      );
-    });
-  }
-
   void _agregarPlato(Map<String, dynamic> nuevoPlato) {
-    setState(() {
-      final categoria = nuevoPlato['categoria'];
-      _menuItems[categoria]?.add(MenuItem(
-        name: nuevoPlato['nombre'],
-        price: nuevoPlato['precio'],
-        image: nuevoPlato['imagen'],
-      ));
-    });
+    final menuController = ref.read(menuControllerProvider.notifier);
+    final currentMenu = ref.read(menuControllerProvider).value;
+
+    if (currentMenu != null) {
+      final categoria = nuevoPlato['category'];
+      final nuevo = MenuItem(
+        id: nuevoPlato['id'],
+        name: nuevoPlato['name'],
+        price: nuevoPlato['price'],
+        imageUrl: nuevoPlato['imageUrl'],
+        category: categoria,
+      );
+
+      final updatedMenu = {...currentMenu};
+      updatedMenu[categoria] = [...?updatedMenu[categoria], nuevo];
+      menuController.state = AsyncData(updatedMenu);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Nuevo plato agregado')),
@@ -58,7 +57,10 @@ class _AdminHomeState extends State<AdminHome> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> categorias = _menuItems.keys.toList();
+    final menuState = ref.watch(menuControllerProvider);
+    final menuItems = menuState.value ?? {};
+
+    final List<String> categorias = menuItems.keys.toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -90,112 +92,117 @@ class _AdminHomeState extends State<AdminHome> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 23),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(bottom: 20),
-                children: [
-                  const SizedBox(height: 20),
-                  const CircularImageWidget(
-                      imagePath: './assets/images/white.png'),
-                  const MenuTitleWidget(),
-                  const SizedBox(height: 25),
-                  ...categorias.map((categoria) {
-                    final platos = _menuItems[categoria]!;
+        child: menuState.when(
+          data: (_) => Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  children: [
+                    const SizedBox(height: 20),
+                    const CircularImageWidget(
+                        imagePath: './assets/images/white.png'),
+                    const MenuTitleWidget(),
+                    const SizedBox(height: 25),
+                    ...categorias.map((categoria) {
+                      final platos = menuItems[categoria]!;
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          categoria,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF073B4C),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            categoria,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF073B4C),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        ...platos.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final plato = entry.value;
+                          const SizedBox(height: 10),
+                          ...platos.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final plato = entry.value;
 
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            elevation: 2,
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  plato.image,
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover,
+                            return Card(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              elevation: 2,
+                              child: ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    plato.imageUrl,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                title: Text(plato.name),
+                                subtitle: Text('\$${plato.price}'),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete_outline,
+                                      color: Colors.red),
+                                  onPressed: () =>
+                                      _deleteDish(categoria, index),
                                 ),
                               ),
-                              title: Text(plato.name),
-                              subtitle: Text(plato.price),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline,
-                                    color: Colors.red),
-                                onPressed: () => _deleteDish(categoria, index),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        const SizedBox(height: 15),
-                      ],
-                    );
-                  }).toList(),
+                            );
+                          }),
+                          const SizedBox(height: 15),
+                        ],
+                      );
+                    }),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final nuevoPlato = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddDishScreen(),
+                        ),
+                      );
+
+                      if (nuevoPlato != null) {
+                        _agregarPlato(nuevoPlato);
+                      }
+                    },
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    label: const Text(
+                      'AGREGAR NUEVO PLATO',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF118AB2),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 20),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    onPressed: () {
+                      ref.read(menuControllerProvider.notifier);
+                    },
+                    icon: const Icon(Icons.refresh),
+                    tooltip: 'Restablecer menú',
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.grey.shade300,
+                      shape: const CircleBorder(),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    final nuevoPlato = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddDishScreen()),
-                    );
-
-                    if (nuevoPlato != null) {
-                      _agregarPlato(nuevoPlato);
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    'AGREGAR NUEVO PLATO',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF118AB2),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 20),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                IconButton(
-                  onPressed: _resetMenu,
-                  icon: const Icon(Icons.refresh),
-                  tooltip: 'Restablecer menú',
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.grey.shade300,
-                    shape: const CircleBorder(),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 20),
+            ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => Center(child: Text('Error al cargar el menú: $e')),
         ),
       ),
     );

@@ -27,7 +27,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     ref.listen<RegisterState>(registerControllerProvider, (prev, next) {
       if (next is RegisterStateSuccess) {
-        // Navega a la pantalla principal usando go_router
         context.go('/home');
       }
       if (next is RegisterStateError) {
