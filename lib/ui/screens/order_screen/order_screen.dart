@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/domain/model/order_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
+import 'package:smartdinner/provider/order_provider.dart';
 import 'package:smartdinner/ui/widgets/order_card.dart';
 import 'package:smartdinner/ui/widgets/order_total_price.dart';
 import 'package:smartdinner/ui/widgets/order_action_buttons.dart';
 
-class OrderScreen extends StatefulWidget {
+class OrderScreen extends ConsumerWidget {
   final TableModel table;
   final VoidCallback updateTableStatus;
 
@@ -16,44 +17,9 @@ class OrderScreen extends StatefulWidget {
   });
 
   @override
-  _OrderScreenState createState() => _OrderScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(orderControllerProvider(table.name)).items;
 
-class _OrderScreenState extends State<OrderScreen> {
-  List<OrderItem> items = OrderItem.getItems();
-
-  int calculateTotalPrice() {
-    int total = 0;
-    for (var item in items) {
-      int unitPrice = item.unitPrice;
-      int quantity = item.quantity;
-      total += unitPrice * quantity;
-    }
-    return total;
-  }
-
-  void increaseQuantity(int index) {
-    setState(() {
-      items[index].quantity++;
-    });
-  }
-
-  void decreaseQuantity(int index) {
-    setState(() {
-      if (items[index].quantity > 1) {
-        items[index].quantity--;
-      }
-    });
-  }
-
-  void deleteItem(int index) {
-    setState(() {
-      items.removeAt(index);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -61,7 +27,7 @@ class _OrderScreenState extends State<OrderScreen> {
         elevation: 0,
         leading: const BackButton(color: Color(0xFF073B4C)),
         title: Text(
-          'ORDEN ${widget.table.name.toUpperCase()}',
+          'ORDEN ${table.name.toUpperCase()}',
           style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -92,16 +58,26 @@ class _OrderScreenState extends State<OrderScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: items.length,
               itemBuilder: (context, index) {
+                final item = items[index];
                 return OrderItemCard(
-                  item: items[index],
-                  onIncrease: () => increaseQuantity(index),
-                  onDecrease: () => decreaseQuantity(index),
-                  onDelete: () => deleteItem(index),
+                  item: item,
+                  onIncrease: () => ref
+                      .read(orderControllerProvider(table.name).notifier)
+                      .increase(item),
+                  onDecrease: () => ref
+                      .read(orderControllerProvider(table.name).notifier)
+                      .decrease(item),
+                  onDelete: () => ref
+                      .read(orderControllerProvider(table.name).notifier)
+                      .remove(item),
                 );
               },
             ),
           ),
-          OrderTotalPrice(totalPrice: calculateTotalPrice()),
+          OrderTotalPrice(
+            totalPrice: items.fold(
+                0, (sum, item) => sum + (item.unitPrice * item.quantity)),
+          ),
           OrderActionButtons(
             onSendOrder: () {
               showDialog(
@@ -112,17 +88,13 @@ class _OrderScreenState extends State<OrderScreen> {
                       '¿Confirmas el envío del pedido a preparación?'),
                   actions: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                      onPressed: () => Navigator.of(context).pop(),
                       child: const Text('Cancelar'),
                     ),
                     TextButton(
                       onPressed: () {
-                        setState(() {
-                          widget.table.status = 'Ordenada';
-                        });
-                        widget.updateTableStatus();
+                        table.status = 'Ordenada';
+                        updateTableStatus();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Aceptar'),
@@ -139,19 +111,13 @@ class _OrderScreenState extends State<OrderScreen> {
                   content: const Text('¿Deseas marcar esta mesa como ocupada?'),
                   actions: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                      onPressed: () => Navigator.of(context).pop(),
                       child: const Text('Cancelar'),
                     ),
                     TextButton(
                       onPressed: () {
-                        setState(() {
-                          widget.table.status = 'Disponible';
-                        });
-
-                        widget.updateTableStatus();
-
+                        table.status = 'Disponible';
+                        updateTableStatus();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Aceptar'),
@@ -166,5 +132,3 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 }
-
-//TO DO : Refactorizar este codigo y ver la forma de que se actualiza la pantalla principal sin necesidad de refrescar la pagina

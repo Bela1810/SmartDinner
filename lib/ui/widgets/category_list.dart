@@ -4,10 +4,12 @@ import 'package:smartdinner/ui/widgets/menu_card.dart';
 
 class CategoryListWidget extends StatelessWidget {
   final Map<String, List<MenuItem>> menuItems;
+  final String tableId;
 
   const CategoryListWidget({
     super.key,
     required this.menuItems,
+    required this.tableId,
   });
 
   @override
@@ -18,7 +20,11 @@ class CategoryListWidget extends StatelessWidget {
       children: menuItems.entries.map((entry) {
         final category = entry.key;
         final items = entry.value;
-        return CategoryTileWidget(category: category, items: items);
+        return CategoryTileWidget(
+          category: category,
+          items: items,
+          tableId: tableId,
+        );
       }).toList(),
     );
   }
@@ -27,12 +33,13 @@ class CategoryListWidget extends StatelessWidget {
 class CategoryTileWidget extends StatelessWidget {
   final String category;
   final List<MenuItem> items;
+  final String tableId;
 
-  const CategoryTileWidget({
-    super.key,
-    required this.category,
-    required this.items,
-  });
+  const CategoryTileWidget(
+      {super.key,
+      required this.category,
+      required this.items,
+      required this.tableId});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,10 @@ class CategoryTileWidget extends StatelessWidget {
           .take(10)
           .map((item) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                child: MenuItemCardWidget(item: item),
+                child: MenuItemCardWidget(
+                  item: item,
+                  tableId: tableId,
+                ),
               ))
           .toList(),
     );

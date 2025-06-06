@@ -48,6 +48,7 @@ class MenuScreen extends ConsumerWidget {
                     const SizedBox(height: 20),
                     CategoryListWidget(
                       menuItems: menuItems,
+                      tableId: table.name,
                     ),
                   ],
                 ),
