@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smartdinner/domain/model/table_model.dart';
 import 'package:smartdinner/provider/order_provider.dart';
+import 'package:smartdinner/provider/table_provider.dart';
 import 'package:smartdinner/ui/widgets/order_card.dart';
 import 'package:smartdinner/ui/widgets/order_total_price.dart';
 import 'package:smartdinner/ui/widgets/order_action_buttons.dart';
@@ -79,6 +80,7 @@ class OrderScreen extends ConsumerWidget {
                 0, (sum, item) => sum + (item.unitPrice * item.quantity)),
           ),
           OrderActionButtons(
+            tableStatus: table.status,
             onSendOrder: () {
               showDialog(
                 context: context,
@@ -93,8 +95,16 @@ class OrderScreen extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        table.status = 'Ordenada';
+                        ref
+                            .read(orderControllerProvider(table.name).notifier)
+                            .sendOrder();
+                        ref
+                            .read(tableControllerProvider.notifier)
+                            .updateStatus(table.name, 'Ordenada');
+
                         updateTableStatus();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Aceptar'),
@@ -108,7 +118,7 @@ class OrderScreen extends ConsumerWidget {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Confirmar Pago'),
-                  content: const Text('¿Deseas marcar esta mesa como ocupada?'),
+                  content: const Text('¿Confirmas el pago de la orden?'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
@@ -116,8 +126,15 @@ class OrderScreen extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        table.status = 'Disponible';
+                        ref
+                            .read(orderControllerProvider(table.name).notifier)
+                            .sendOrder();
+                        ref
+                            .read(tableControllerProvider.notifier)
+                            .updateStatus(table.name, 'Disponible');
+
                         updateTableStatus();
+                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Aceptar'),

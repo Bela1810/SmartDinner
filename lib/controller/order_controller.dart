@@ -58,4 +58,8 @@ class OrderController extends StateNotifier<OrderState> {
       items: state.items.where((item) => item.id != itemId).toList(),
     );
   }
+
+  void sendOrder() {
+    state = state.copyWith(status: 'Ordenada');
+  }
 }
