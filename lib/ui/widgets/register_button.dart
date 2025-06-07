@@ -14,11 +14,9 @@ class RegisterButton extends StatelessWidget {
   });
 
   void _validateLogin(BuildContext context) {
-    // Limpia cualquier SnackBar pendiente o visible
     ScaffoldMessenger.of(context).clearSnackBars();
 
     if (passwordController.text == repeatPasswordController.text) {
-      // Mostrar mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Registro exitoso'),
@@ -30,7 +28,6 @@ class RegisterButton extends StatelessWidget {
         MaterialPageRoute(builder: (context) => const TableScreen()),
       );
     } else {
-      // Mostrar solo un mensaje de error claro
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Las contraseñas no coinciden'),

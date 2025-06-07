@@ -27,7 +27,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     ref.listen<RegisterState>(registerControllerProvider, (prev, next) {
       if (next is RegisterStateSuccess) {
-        context.go('/home');
+        Navigator.of(context).pop();
       }
       if (next is RegisterStateError) {
         ScaffoldMessenger.of(context).showSnackBar(
