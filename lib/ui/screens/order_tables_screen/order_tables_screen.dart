@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:smartdinner/domain/model/table_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartdinner/provider/table_provider.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/no_order_table.dart';
 import 'package:smartdinner/ui/widgets/order_table_card.dart';
 
-class OrderTablesScreen extends StatefulWidget {
-  final List<TableModel> tables;
-
-  const OrderTablesScreen({super.key, required this.tables});
+class OrderTablesScreen extends ConsumerWidget {
+  const OrderTablesScreen({super.key});
 
   @override
-  State<OrderTablesScreen> createState() => _OrderTablesScreenState();
-}
-
-class _OrderTablesScreenState extends State<OrderTablesScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final orderedTables = widget.tables.where((table) => table.status == 'Ordenada').toList();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tables = ref.watch(tableControllerProvider).tables;
+    final orderedTables = tables.where((t) => t.status == 'Ordenada').toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MESAS ORDENADAS',
-            style: TextStyle(
-              color: Color(0xFF073B4C),
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
+        title: const Text(
+          'MESAS ORDENADAS',
+          style: TextStyle(
+            color: Color(0xFF073B4C),
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
       ),
       body: orderedTables.isEmpty
@@ -40,18 +36,17 @@ class _OrderTablesScreenState extends State<OrderTablesScreen> {
               itemCount: orderedTables.length,
               itemBuilder: (context, index) {
                 final table = orderedTables[index];
-
                 return OrderTableCard(
                   table: table,
                   onPressed: () {
-                    setState(() {
-                      table.status = 'Ocupada';
-                    });
+                    ref
+                        .read(tableControllerProvider.notifier)
+                        .updateStatus(table.name, 'Ocupada');
                   },
                 );
               },
             ),
-          bottomNavigationBar: TableBottomNavBar(currentIndex: 1, tables: widget.tables)
+      bottomNavigationBar: TableBottomNavBar(currentIndex: 1, tables: tables),
     );
   }
 }

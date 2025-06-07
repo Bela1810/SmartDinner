@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smartdinner/controller/auth_controller.dart';
-import 'package:smartdinner/domain/model/table_model.dart';
-import 'package:smartdinner/provider/controller_provider.dart';
+import 'package:smartdinner/provider/table_provider.dart';
+import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
+import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/table_card.dart';
 import 'package:smartdinner/ui/widgets/table_description.dart';
@@ -17,42 +17,46 @@ class TableScreen extends ConsumerStatefulWidget {
 }
 
 class _TableScreenState extends ConsumerState<TableScreen> {
-  List<TableModel> tableList = List.generate(
-    16,
-    (i) => TableModel(name: "Mesa ${i + 1}", status: "Disponible"),
-  );
+  void updateTableStatus(String tableName) {
+    final currentTable = ref
+        .read(tableControllerProvider)
+        .tables
+        .firstWhere((t) => t.name == tableName);
+    final currentStatus = currentTable.status;
+    final nextStatus = currentStatus == 'Disponible'
+        ? 'Ordenada'
+        : currentStatus == 'Ordenada'
+            ? 'Ocupada'
+            : 'Disponible';
 
-  final List<String> statusOptions = ['Disponible', 'Ordenada', 'Ocupada'];
-
-  void updateTableStatus(int index) {
-    final currentStatus = tableList[index].status;
-    final nextStatusIndex =
-        (statusOptions.indexOf(currentStatus) + 1) % statusOptions.length;
-
-    setState(() {
-      tableList[index].status = statusOptions[nextStatusIndex];
-    });
+    ref
+        .read(tableControllerProvider.notifier)
+        .updateStatus(tableName, nextStatus);
   }
 
   @override
   Widget build(BuildContext context) {
+    final tableState = ref.watch(tableControllerProvider);
+    final tableList = tableState.tables;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(
+        title: const Text(
           'MESAS',
           style: TextStyle(
-              color: Color(0xFF073B4C),
-              fontWeight: FontWeight.bold,
-              fontSize: 25),
+            color: Color(0xFF073B4C),
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               ref.read(authControllerProvider.notifier).logout();
-
-              context.go('/auth');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const AuthScreen()));
             },
           ),
         ],
@@ -62,9 +66,9 @@ class _TableScreenState extends ConsumerState<TableScreen> {
           TableDescription(tables: tableList),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               itemCount: tableList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 childAspectRatio: 1.2,
@@ -75,12 +79,25 @@ class _TableScreenState extends ConsumerState<TableScreen> {
                   name: table.name,
                   status: table.status,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MenuScreen(table: table),
-                      ),
-                    );
+                    if (table.status == 'Ordenada' ||
+                        table.status == 'Ocupada') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderScreen(
+                            table: table,
+                            updateTableStatus: () {},
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MenuScreen(table: table),
+                        ),
+                      );
+                    }
                   },
                 );
               },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smartdinner/controller/login_state.dart';
 import 'package:smartdinner/provider/auth_validator_provider.dart';
 import 'package:smartdinner/provider/controller_provider.dart';
@@ -27,7 +26,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     ref.listen<RegisterState>(registerControllerProvider, (prev, next) {
       if (next is RegisterStateSuccess) {
-        context.go('/home');
+        Navigator.of(context).pop();
       }
       if (next is RegisterStateError) {
         ScaffoldMessenger.of(context).showSnackBar(
