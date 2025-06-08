@@ -94,7 +94,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   validator: nameValidator,
                                   decoration: const InputDecoration(
                                     hintText: 'Ingrese su nombre...',
-                                    prefixIcon: Icon(Icons.people),
+                                    prefixIcon: Icon(Icons.people, color: Colors.white),
                                     hintStyle: TextStyle(color: Colors.white70),
                                     border: OutlineInputBorder(),
                                     enabledBorder: OutlineInputBorder(
@@ -123,7 +123,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   validator: emailValidator,
                                   decoration: const InputDecoration(
                                     hintText: 'Ingrese su correo...',
-                                    prefixIcon: Icon(Icons.email_outlined),
+                                    prefixIcon: Icon(Icons.email_outlined, color: Colors.white),
                                     hintStyle: TextStyle(color: Colors.white70),
                                     border: OutlineInputBorder(),
                                     enabledBorder: OutlineInputBorder(
@@ -152,7 +152,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   obscureText: !_isPasswordVisibleP,
                                   decoration: InputDecoration(
                                     hintText: 'Ingrese contraseña...',
-                                    prefixIcon: const Icon(Icons.lock_outline),
+                                    prefixIcon: const Icon(Icons.lock_outline,color: Colors.white),
                                     hintStyle:
                                         const TextStyle(color: Colors.white70),
                                     border: const OutlineInputBorder(),
@@ -197,7 +197,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   decoration: InputDecoration(
                                     hintText:
                                         'Ingrese nuevamente la contraseña...',
-                                    prefixIcon: const Icon(Icons.lock_outline),
+                                    prefixIcon: const Icon(Icons.lock_outline,color: Colors.white),
                                     hintStyle:
                                         const TextStyle(color: Colors.white70),
                                     border: const OutlineInputBorder(),
@@ -249,7 +249,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     ),
                                     child: const Text(
                                       'Registro',
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(fontSize: 16,color: Colors.white),
                                     ),
                                   ),
                                 ),

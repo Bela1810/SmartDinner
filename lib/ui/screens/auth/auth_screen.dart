@@ -99,7 +99,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                       validator: emailValidator,
                                       decoration: const InputDecoration(
                                         hintText: 'Ingrese su correo...',
-                                        prefixIcon: Icon(Icons.email_outlined),
+                                        prefixIcon: Icon(Icons.email_outlined, color: Colors.white),
                                         hintStyle:
                                             TextStyle(color: Colors.white70),
                                         border: OutlineInputBorder(),
@@ -126,7 +126,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                       decoration: InputDecoration(
                                         hintText: 'Ingrese contraseña...',
                                         prefixIcon:
-                                            const Icon(Icons.lock_outline),
+                                            const Icon(Icons.lock_outline,color: Colors.white),
                                         hintStyle: const TextStyle(
                                             color: Colors.white70),
                                         border: const OutlineInputBorder(),
@@ -177,7 +177,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                           foregroundColor: Colors.black,
                                         ),
                                         child: const Text('Iniciar Sesión',
-                                            style: TextStyle(fontSize: 16)),
+                                            style: TextStyle(fontSize: 16,color: Colors.white)),
                                       ),
                                     ),
                                   ],
@@ -197,7 +197,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
         ),
 
-        // Loader centrado con fondo opaco
         if (loginState is AsyncLoading)
           Container(
             color: Colors.black.withOpacity(0.5),
