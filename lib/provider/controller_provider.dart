@@ -8,7 +8,7 @@ import 'package:smartdinner/provider/repository_provider.dart';
 final authControllerProvider =
     StateNotifierProvider<AuthController, AsyncValue<void>>((ref) {
   final repository = ref.read(authRepositoryProvider);
-  return AuthController(repository);
+  return AuthController(repository, ref);
 });
 
 final registerControllerProvider =
