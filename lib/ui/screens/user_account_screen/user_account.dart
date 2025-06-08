@@ -5,6 +5,7 @@ import 'package:smartdinner/domain/model/user_model.dart';
 import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/profile_image.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserAccountScreen extends StatefulWidget {
   const UserAccountScreen({super.key});
@@ -75,22 +76,44 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             UserProfileImage(imageUrl: _user!.profileImage),
+            const SizedBox(height: 30),
+            Text(
+              '¡BIENVENIDO A SMART DINNER!',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.openSans(
+                fontSize: 35,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF073B4C),
+                shadows: [
+                  Shadow(
+                    color: Colors.blue.withOpacity(0.4),
+                    offset: const Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 20),
             Text(
               _user!.name,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 30, 
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF073B4C)),
             ),
             const SizedBox(height: 10),
             Text(
               _user!.email,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color(0xFF073B4C)),
             ),
           ],
         ),
