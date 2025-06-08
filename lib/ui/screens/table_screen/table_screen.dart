@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smartdinner/controller/auth_controller.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/provider/table_provider.dart';
-import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
 import 'package:smartdinner/ui/screens/menu_screen/menu_screen.dart';
 import 'package:smartdinner/ui/screens/order_screen/order_screen.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
@@ -55,8 +55,7 @@ class _TableScreenState extends ConsumerState<TableScreen> {
             icon: const Icon(Icons.logout),
             onPressed: () {
               ref.read(authControllerProvider.notifier).logout();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const AuthScreen()));
+              context.go('/auth');
             },
           ),
         ],

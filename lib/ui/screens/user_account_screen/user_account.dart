@@ -1,20 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartdinner/domain/model/user_model.dart';
-import 'package:smartdinner/ui/screens/auth/auth_screen.dart';
+import 'package:smartdinner/provider/controller_provider.dart';
 import 'package:smartdinner/ui/widgets/bottom_nav_bar.dart';
 import 'package:smartdinner/ui/widgets/profile_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserAccountScreen extends StatefulWidget {
+class UserAccountScreen extends ConsumerStatefulWidget {
   const UserAccountScreen({super.key});
 
   @override
-  State<UserAccountScreen> createState() => _UserAccountScreenState();
+  ConsumerState<UserAccountScreen> createState() => _UserAccountScreenState();
 }
 
-class _UserAccountScreenState extends State<UserAccountScreen> {
+class _UserAccountScreenState extends ConsumerState<UserAccountScreen> {
   User? _user;
 
   final _usernameController = TextEditingController();
@@ -64,13 +66,8 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.remove('is_logged_in');
-              await prefs.remove('user_data');
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const AuthScreen()),
-              );
+              ref.read(authControllerProvider.notifier).logout();
+              context.go('/auth');
             },
           ),
         ],
@@ -103,17 +100,15 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
               _user!.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 30, 
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF073B4C)),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF073B4C)),
             ),
             const SizedBox(height: 10),
             Text(
               _user!.email,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Color(0xFF073B4C)),
+              style: const TextStyle(fontSize: 18, color: Color(0xFF073B4C)),
             ),
           ],
         ),

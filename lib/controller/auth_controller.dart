@@ -3,18 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartdinner/controller/login_state.dart';
 import 'package:smartdinner/data/repository/auth_repository.dart';
-import 'package:smartdinner/provider/repository_provider.dart';
-
-final authControllerProvider =
-    StateNotifierProvider<AuthController, AsyncValue<void>>((ref) {
-  final repository = ref.read(authRepositoryProvider);
-  return AuthController(repository);
-});
+import 'package:smartdinner/provider/session_provider.dart';
 
 class AuthController extends StateNotifier<AsyncValue<void>> {
   final AuthRepository repository;
+  final Ref ref;
 
-  AuthController(this.repository) : super(const AsyncData(null));
+  AuthController(this.repository, this.ref) : super(const AsyncData(null));
 
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
@@ -24,6 +19,7 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('is_logged_in', true);
       await prefs.setString('user_data', jsonEncode(user.toJson()));
+      ref.invalidate(sessionProvider);
 
       state = const AsyncData(null);
     } catch (e, st) {
@@ -38,6 +34,8 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('is_logged_in');
+      await prefs.remove('user_data');
+      ref.invalidate(sessionProvider);
 
       state = const AsyncData(null);
     } catch (e, st) {
